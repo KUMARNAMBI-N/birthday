@@ -138,3 +138,43 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Memories Section Responsive Fixed Background */
+.memories-bg {
+  background-image: url('/images/birthday-family.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center 15%;
+}
+
+/* Mobile phones (320px–480px) */
+@media (max-width: 480px) {
+  .memories-bg {
+    background-position: center 12%;
+  }
+}
+
+/* Tablets (481px–768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .memories-bg {
+    background-position: center 15%;
+  }
+}
+
+/* Desktop and laptops (769px and above) */
+@media (min-width: 769px) {
+  .memories-bg {
+    background-position: center 20%;
+  }
+}
+
+/* Graceful fallback for touch devices where background-attachment: fixed causes layout distortion */
+@supports (-webkit-touch-callout: none) {
+  @media (pointer: coarse) {
+    .memories-bg {
+      background-attachment: scroll;
+    }
+  }
+}

@@ -4,7 +4,6 @@ import { RomanticImage } from '../decorations/RomanticImage'
 import { LightboxModal } from '../gallery/LightboxModal'
 import { FloralFlourish } from '../decorations/GoldOrnaments'
 import { birthdayContent } from '../../config/birthdayContent'
-import { Eye } from 'lucide-react'
 
 export const MemoriesSection: React.FC = () => {
   const memories = birthdayContent.memories
@@ -17,16 +16,12 @@ export const MemoriesSection: React.FC = () => {
   return (
     <section 
       id="memories-section" 
-      className="relative py-20 sm:py-28 scroll-mt-6 overflow-hidden"
+      className="relative py-16 sm:py-24 scroll-mt-6 overflow-hidden"
     >
-      {/* Full Background Photo — Family Portrait */}
-      <img
-        src="/images/birthday-family.jpeg"
-        alt="Family Portrait Background"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        style={{ objectPosition: 'center 15%' }}
-        loading="eager"
-        decoding="async"
+      {/* Full Background Photo — Responsive Fixed Background */}
+      <div 
+        className="absolute inset-0 w-full h-full z-0 memories-bg pointer-events-none"
+        aria-hidden="true"
       />
       {/* Soft warm vignette & overlay for text legibility and rich colors */}
       <div 
@@ -38,7 +33,7 @@ export const MemoriesSection: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center mb-10 sm:mb-14">
+        <div className="text-center mb-6 sm:mb-8">
           <span className="font-sans text-[11px] sm:text-xs uppercase tracking-[0.28em] text-[#EAD196] font-semibold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
             {memories.label}
           </span>
@@ -51,64 +46,6 @@ export const MemoriesSection: React.FC = () => {
           <p className="font-serif italic text-sm sm:text-base text-[#F8F1E3] max-w-lg mx-auto mt-2.5 leading-relaxed px-4 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
             {memories.subheading}
           </p>
-        </div>
-
-        {/* Featured 3 Prominent Photographs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-14">
-          {photos.map((photo, index) => {
-            const photoNum = String(index + 1).padStart(2, '0')
-
-            return (
-              <div
-                key={photo.id}
-                onClick={() => setSelectedPhoto(photo)}
-                className="group relative bg-[#FCFBF7] p-3.5 sm:p-4 pb-5 sm:pb-6 rounded-sm shadow-xl hover:shadow-2xl border border-gold/40 cursor-pointer transform transition-all duration-300 hover:-translate-y-2 select-none"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    setSelectedPhoto(photo)
-                  }
-                }}
-                aria-label={`View photo ${photoNum}: ${photo.caption}`}
-              >
-                {/* Photo Frame */}
-                <div className="relative overflow-hidden aspect-[4/5] bg-ivory-dark rounded-[1px] shadow-inner">
-                  <RomanticImage
-                    src={photo.url}
-                    alt={photo.alt}
-                    aspectRatio="aspect-[4/5]"
-                    fallbackText={`Memory ${photoNum}`}
-                  />
-
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-burgundy/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[1px]">
-                    <span className="inline-flex items-center gap-1.5 text-ivory text-xs font-serif uppercase tracking-widest bg-burgundy/90 px-3 py-1.5 rounded-full border border-gold/50 shadow-sm">
-                      <Eye className="w-3.5 h-3.5 text-gold-light" />
-                      View
-                    </span>
-                  </div>
-
-                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-sm border border-gold/30 text-[10px] font-sans tracking-widest text-gold-light uppercase">
-                    Photo {index + 1}
-                  </div>
-                </div>
-
-                {/* Caption */}
-                <div className="mt-4 text-center px-1">
-                  <p className="font-serif italic text-espresso text-[15px] sm:text-[16px] leading-snug group-hover:text-burgundy transition-colors">
-                    &ldquo;{photo.caption}&rdquo;
-                  </p>
-                  {photo.date && (
-                    <p className="mt-1.5 font-sans text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-gold-dark font-medium">
-                      {photo.date}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )
-          })}
         </div>
       </div>
 
