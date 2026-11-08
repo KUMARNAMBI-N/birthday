@@ -96,9 +96,9 @@ export const MemoriesSection: React.FC = () => {
         <a
           href="#chapter-3"
           className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-gold/40 text-[#EAD196] font-serif italic text-sm sm:text-base tracking-wide transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 backdrop-blur-sm shadow-md"
-          aria-label="Continue to Chapter 3"
+          aria-label="Continue to Our Dreams, Our Tomorrow"
         >
-          <span>Chapter 03 – Namma Future ↓</span>
+          <span>Our Dreams, Our Tomorrow ↓</span>
         </a>
       </div>
 

@@ -78,6 +78,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
         {/* Brand mark */}
         <a
           href="#hero"
+          onClick={(e) => {
+            e.preventDefault()
+            if (window.location.hash) {
+              window.history.replaceState(null, '', window.location.pathname)
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
           className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#C6A15B] rounded-sm"
           aria-label="Back to top"
         >
@@ -157,7 +164,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
               letterSpacing: '-0.01em',
             }}
           >
-            My Beautiful Kriti ❤️
+            My Princess Kriti!
           </span>
         </h1>
 

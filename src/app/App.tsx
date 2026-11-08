@@ -11,17 +11,29 @@ import { birthdayContent } from '../config/birthdayContent'
 
 export const App: React.FC = () => {
   useEffect(() => {
-    const el = document.getElementById('memories-section')
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('section') === 'memories' && el) {
-      el.scrollIntoView({ behavior: 'instant' as ScrollBehavior })
-    } else if (window.location.hash) {
-      setTimeout(() => {
-        const hashEl = document.querySelector(window.location.hash)
-        if (hashEl) {
-          hashEl.scrollIntoView({ behavior: 'auto' })
-        }
-      }, 150)
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+
+    const scrollToHeroTop = () => {
+      if (window.location.hash || window.location.search) {
+        window.history.replaceState(null, '', window.location.pathname)
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }
+
+    scrollToHeroTop()
+
+    // Ensure iOS Safari / Android bfcache restores also start at top
+    const handlePageShow = () => {
+      scrollToHeroTop()
+    }
+
+    window.addEventListener('pageshow', handlePageShow)
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow)
     }
   }, [])
 

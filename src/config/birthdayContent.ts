@@ -17,7 +17,7 @@ export const birthdayContent: BirthdayContent = {
 
   hero: {
     decorativeLabel: "A LITTLE WORLD CREATED JUST FOR YOU",
-    mainTitle: "Happy Birthday, My Beautiful Kriti ❤️",
+    mainTitle: "Happy Birthday, My Princess Kriti!",
     herName: "Kriti",
     introSentence: "Some people make the world more beautiful simply by being in it. Today is all about celebrating you, your beautiful smile, your dreams, and all the happiness you bring into this world.",
     heroPhotoUrl: "./images/birthday-childhood.jpg",
@@ -28,9 +28,9 @@ export const birthdayContent: BirthdayContent = {
   // ── SECTION 2: PAGE ONE ────────────────────────────────────────────────
   chapterOne: {
     id: "chapter-1",
-    chapterLabel: "CHAPTER 01 – NAMMA KADHAIYIN AARAMBAM",
-    heading: "Kriti… Unakkaga Oru Chinna Ulagam",
-    subheading: "A connection that began long before we understood what it would mean.",
+    chapterLabel: "",
+    heading: "Where It All Began",
+    subheading: "Oru Azhagana Aarambam ❤️",
     date: "11.11.2003 – The day a beautiful soul came into this world.",
     salutation: "Kriti…",
     paragraphs: [
@@ -45,17 +45,17 @@ export const birthdayContent: BirthdayContent = {
       "Namma story innum aarambathula dhaan irukku Kriti. Aana indha story-la nee enakku romba special."
     ],
     signoff: "With all my heart,",
-    signature: "Yours Always ❤️",
+    signature: "Always Yours ❤️",
     nextSectionId: "chapter-2",
-    nextSectionLabel: "Chapter 02 – Unakkaga Naan ↓"
+    nextSectionLabel: "Your Forever Safe Place ↓"
   },
 
   // ── SECTION 3: PAGE TWO ────────────────────────────────────────────────
   chapterTwo: {
     id: "chapter-2",
-    chapterLabel: "CHAPTER 02 – UNAKKAGA NAAN",
-    heading: "Unakku Ellamaagavum Irukka Virumbum Naan",
-    subheading: "Not just your love, but also your best friend, your support and your safe place.",
+    chapterLabel: "",
+    heading: "Your Forever Safe Place",
+    subheading: "Unakku Eppovume Naan Irukken ❤️",
     salutation: "Kriti…",
     paragraphs: [
       "Naan unakku oru lover-ah mattum irukka virumbala. Unakku thevaiyana nerathula oru nalla friend-ah irukkanum.",
@@ -73,7 +73,7 @@ export const birthdayContent: BirthdayContent = {
       "Naan un life-ah control panna varala. Un life-la unakku strength-ah irukka varren."
     ],
     signoff: "Always by your side,",
-    signature: "Your Future Life Partner ❤️",
+    signature: "Always Yours ❤️",
     nextSectionId: "memories-section",
     nextSectionLabel: "Namma Chinna Ulagam (Memories) ↓"
   },
@@ -202,43 +202,27 @@ export const birthdayContent: BirthdayContent = {
   // ── SECTION 5: PAGE THREE ──────────────────────────────────────────────
   chapterThree: {
     id: "chapter-3",
-    chapterLabel: "CHAPTER 03 – NAMMA FUTURE",
-    heading: "Un Ovvoru Birthday-um Sirippoda Irukkanum",
-    subheading: "Different cities, but one heart and one beautiful dream.",
-    salutation: "Happy Birthday, En Chellamaana Kriti! ❤️",
+    chapterLabel: "",
+    heading: "Our Dreams, Our Tomorrow ❤️",
+    subheading: "Happy Birthday, My Dear Kriti!",
+    salutation: "Kriti...",
     paragraphs: [
-      "Innaikku un birthday.",
-      "Unakku indha birthday-la naan expensive gifts mattum kudukka virumbala. En manasula irukkura feelings-ah unakku puriya vekkanum nu dhaan aasai.",
-      "Indha blue saree unakkaga.",
-      "Indha ring namma relationship-oda oru azhagana ninaivaga irukkattum.",
-      "Indha chocolates un birthday-ah innum konjam sweet-ah maathattum.",
-      "Indha photos namma azhagana memories-ah unakku thirumba nyabagapaduthattum.",
-      "Indha website-la irukkura ovvoru word-um unakkaga naan create pannadhu. Nee eppovavadhu lonely-ah feel pannina, indha page-ah open panni padi. Unakku evlo special-ah irukka nu idhu nyabagapaduthattum.",
-      "Kriti… unakku inime varra ovvoru birthday-um sirippoda irukkanum. Un kannula happiness mattum irukkanum. Un dreams ellame nijamaaganum. Nee aasai padra ella vishayangalum unakku kidaikkanum.",
-      "Unakku eppovavadhu azhanum pola irundha azhu. Strong-ah irukkanum nu unnai nee force pannikkaadha.",
-      "Un feelings-ah maraikka vendam. Unakku pesa thonumbodhu pesu. Silent-ah irukkanum pola irundhaalum parava illa.",
-      "Naan unakku support-ah irukka virumburen.",
-      "Distance namma rendu peraiyum different places-la vachirukkalaam. Aana namma manasula irukkura paasathai distance decide panna mudiyadhu.",
-      "Oru naal indha long-distance memories ellam namma rendu perum serndhu ukkandhu pesura memories-ah maaranum.",
-      "Innaikku phone-la pesura conversations, naalaikku face-to-face sirippaga maaranum.",
-      "Innaikku miss panra moments, naalaikku namma serndhu vaazhra azhagana naatkalaga maaranum.",
-      "Namma future eppadi irukkum nu enakku exact-ah theriyadhu. Aana adhai un kooda serndhu build panna naan manasara aasai paduren.",
-      "Enakku un kooda oru naal mattum illa… vaazhkai muzhukka memories create pannanum.",
-      "Kriti, nee en life-la oru special person mattum illa. Naan en future-ah imagine pannumbodhu andha future-la unakkum oru azhagana idam irukku.",
-      "Unakku naan kudukka virumbura periya gift enna theriyuma? Unna nee eppovume thaniya illa nu feel panna vaikkiradhu. Unna respect pannuradhu. Un dreams-ku support pannuradhu. Un kooda sirichu, un kooda valarndhu, un kooda oru azhagana life build pannuradhu.",
-      "Once again, Happy Birthday, Kriti! ❤️ Un sirippu eppovume kuraiya koodadhu. Un happiness eppovume maarakoodadhu.",
-      "Intha story-oda next pages namma rendu perum serndhu ezhudhuvom."
+      "Indha blue saree, ring, chocolates ellame unakkaga. Un birthday-ah innum special-ah maathanum nu dhaan aasai. ❤️",
+      "Nee eppovume happy-ah irukkanum. Un dreams ellame nijamaaganum.",
+      "Innaikku distance irundhaalum, oru naal namma serndhu neraya beautiful memories create pannuvom.",
+      "Un sirippaiyum, un dreams-aiyum eppovume celebrate panna naan iruppen.",
+      "Happy Birthday, Kriti! ❤️"
     ],
-    signoff: "With lots of love,",
-    signature: "Un Future Life Partner ❤️💍",
+    signoff: "The best memories are yet to come.",
+    signature: "Always Yours ❤️",
     nextSectionId: "wish-section",
-    nextSectionLabel: "Birthday Blessings ↓"
+    nextSectionLabel: "A Thousand Wishes for You ↓"
   },
 
   // ── SECTION 6: BIRTHDAY BLESSINGS ──────────────────────────────────────
   wish: {
-    tag: "EN MANASULA IRUNDHU UN BIRTHDAY-KU ❤️",
-    heading: "En Chellamaana Kriti-kkaana Birthday Wishes",
+    tag: "Indha Naal Unakkaga, Kriti! ❤️",
+    heading: "A Thousand Wishes for You",
     paragraphs: [
       "Kriti...",
       "Innaikku unakku romba special-aana naal. Un birthday-ku en manasula irukkura sila aasaiyum wishes-um un kooda share pannanum nu aasai paduren.",
@@ -260,8 +244,8 @@ export const birthdayContent: BirthdayContent = {
   surprise: {
     teaserLabel: "ONE LAST THING FROM MY HEART",
     promptText: "Sila words irukku… nee eppovume marakkakoodaadha nu naan virumburen.",
-    buttonText: "Open My Heart ❤️",
-    revealedHeading: "Unakku Ellaamaagavum Naan Irukka Virumburen",
+    buttonText: "A Secret Just for You ❤️",
+    revealedHeading: "A Promise From My Heart",
     messageParagraphs: [
       "Kriti...",
       "Unakku eppovume naan iruppen. Unakku oru brother-ah support venumna, oru father-ah care venumna, oru sister-ah share pannikka venumna, oru mother-ah paasam kaatta venumna, ennala mudinja alavukku andha ella paasathaiyum unakku kodukka virumburen.",
@@ -274,21 +258,21 @@ export const birthdayContent: BirthdayContent = {
       "Unakku indha varusham neraya happiness, success, love and beautiful memories kondu varanum nu manasara wish panren."
     ],
     loveNote: "Un vazhkaiyoda ella situations-layum, unakku mudinja alavukku thunaiya nikka naan eppovume un kooda iruppen. ❤️",
-    signature: "With Lots of Love ❤️"
+    signature: "Always Yours ❤️"
   },
 
   // ── SECTION 8: FINAL SCREEN ────────────────────────────────────────────
   final: {
     herName: "Kriti",
-    mainWish: "Happy Birthday, En Chellamaana Kriti ❤️",
+    mainWish: "Happy Birthday, My Princess Kriti! ❤️👑",
     closingParagraphs: [
-      "Indha namma story-oda mudivu illa.",
-      "Idhu oru azhagana new chapter-oda aarambam.",
-      "Nee sirichi, kanaavi, un aasai padra ellavalagave maaridhu vaa.",
-      "Next page thirumbum pothu, namma rendu perum pakkathula iruppom nu naan namburen. ❤️"
+      "May your smile never fade, your dreams come true, and your life always be filled with happiness.",
+      "Keep smiling, keep shining, and keep being the wonderful person you are.",
+      "You deserve all the beautiful things this world has to offer.",
+      "Once again, Happy Birthday, Kriti! ❤️"
     ],
-    madeWithLoveText: "Un kooda oru azhagana life build pannanum nu, kadhalin udane seydhadhu. ❤️ — Kriti-kkaaga",
-    backToTopText: "Aarambathirku Thirumbu"
+    madeWithLoveText: "Stay happy. Stay blessed. Keep shining.",
+    backToTopText: "Back to Top"
   },
 
   audio: {

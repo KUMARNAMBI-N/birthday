@@ -7,6 +7,9 @@ export const FinalSection: React.FC = () => {
   const final = birthdayContent.final
 
   const scrollToTop = () => {
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname)
+    }
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -42,9 +45,14 @@ export const FinalSection: React.FC = () => {
         </div>
 
         {/* Made with Love Notice */}
-        <div className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-gold-light/80 mt-4 mb-8">
+        <div className="text-[11px] sm:text-xs font-sans tracking-[0.2em] uppercase text-gold-light/80 mt-4 mb-2">
           <span>{final.madeWithLoveText}</span>
         </div>
+
+        {/* Final Signature */}
+        <p className="font-script text-2xl sm:text-3xl text-gold-light mb-8">
+          Always Yours ❤️
+        </p>
 
         {/* Back to the Beginning Button */}
         <button

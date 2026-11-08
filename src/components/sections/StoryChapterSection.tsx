@@ -25,11 +25,13 @@ export const StoryChapterSection: React.FC<StoryChapterProps> = ({
       className="relative py-16 sm:py-24 px-5 sm:px-8 bg-ivory scroll-mt-6"
     >
       <div className="w-full max-w-2xl mx-auto">
-        {/* Chapter Header */}
+        {/* Section Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-champagne/60 border border-gold/30 font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-burgundy font-semibold mb-3">
-            {chapter.chapterLabel}
-          </span>
+          {chapter.chapterLabel && (
+            <span className="inline-block px-3.5 py-1 rounded-full bg-champagne/60 border border-gold/30 font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-burgundy font-semibold mb-3">
+              {chapter.chapterLabel}
+            </span>
+          )}
 
           <h2 className="font-serif text-3xl sm:text-4xl text-burgundy font-normal tracking-tight mt-1">
             {chapter.heading}
@@ -39,7 +41,7 @@ export const StoryChapterSection: React.FC<StoryChapterProps> = ({
             <FloralFlourish className="w-32 sm:w-40 h-4 text-gold/60" />
           </div>
 
-          <p className="font-serif italic text-sm sm:text-base text-espresso-muted max-w-md mx-auto mt-2.5 leading-relaxed">
+          <p className="font-serif italic text-base sm:text-lg text-espresso-muted max-w-md mx-auto mt-2.5 leading-relaxed">
             {chapter.subheading}
           </p>
 
@@ -87,7 +89,7 @@ export const StoryChapterSection: React.FC<StoryChapterProps> = ({
                 className="inline-flex items-center gap-1.5 text-xs font-serif uppercase tracking-widest text-burgundy hover:text-burgundy-light font-medium py-2 px-4 rounded-full bg-champagne/40 border border-gold/30 transition-colors"
                 aria-expanded={isExpanded}
               >
-                <span>{isExpanded ? 'Show Less' : 'Read Full Chapter'}</span>
+                <span>{isExpanded ? 'Show Less' : 'Read Full Story'}</span>
                 {isExpanded ? (
                   <ChevronUp className="w-3.5 h-3.5 text-gold-dark" />
                 ) : (

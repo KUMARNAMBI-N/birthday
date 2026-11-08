@@ -20,10 +20,10 @@ export const Navbar: React.FC = () => {
   }, [])
 
   const navLinks = [
-    { name: 'Chapter I', href: '#chapter-1' },
-    { name: 'Chapter II', href: '#chapter-2' },
+    { name: 'Where It All Began', href: '#chapter-1' },
+    { name: 'Safe Place', href: '#chapter-2' },
     { name: 'Our Memories', href: '#memories-section' },
-    { name: 'Chapter III', href: '#chapter-3' },
+    { name: 'Our Tomorrow', href: '#chapter-3' },
     { name: 'Blessings', href: '#wish-section' },
     { name: 'Surprise', href: '#surprise-section' },
     { name: 'Forever', href: '#final-section' },
@@ -50,6 +50,9 @@ export const Navbar: React.FC = () => {
           href="#hero"
           onClick={(e) => {
             e.preventDefault()
+            if (window.location.hash) {
+              window.history.replaceState(null, '', window.location.pathname)
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' })
             setMobileMenuOpen(false)
           }}

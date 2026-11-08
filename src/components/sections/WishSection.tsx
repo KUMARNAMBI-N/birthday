@@ -15,15 +15,15 @@ export const WishSection: React.FC = () => {
         <div className="relative border border-gold/30 p-7 sm:p-12 rounded-sm bg-black/20 backdrop-blur-xs">
           {/* Section Header */}
           <div className="text-center mb-8 sm:mb-12">
-            <span className="font-sans text-[11px] sm:text-xs uppercase tracking-[0.28em] text-gold-light/90 font-medium">
-              {wish.tag}
-            </span>
-            <h2 className="font-serif italic text-3xl sm:text-4xl md:text-5xl text-ivory font-normal mt-2 tracking-tight">
+            <h2 className="font-serif italic text-3xl sm:text-4xl md:text-5xl text-ivory font-normal tracking-tight">
               {wish.heading}
             </h2>
             <div className="flex justify-center mt-3">
               <FloralFlourish className="w-32 sm:w-40 h-4 text-gold-light/60" />
             </div>
+            <p className="font-serif italic text-base sm:text-lg text-gold-light/95 mt-2.5 tracking-wide">
+              {wish.tag}
+            </p>
           </div>
 
           {/* Heartfelt Blessings */}

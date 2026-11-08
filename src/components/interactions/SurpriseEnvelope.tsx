@@ -107,6 +107,9 @@ export const SurpriseEnvelope: React.FC = () => {
             <h3 className="font-serif text-2xl sm:text-3xl font-normal text-burgundy leading-snug">
               {surprise.revealedHeading}
             </h3>
+            <p className="font-serif italic text-sm sm:text-base text-espresso-muted mt-1.5">
+              Unakku Eppovume Oru Thunai ❤️
+            </p>
             <div className="w-12 h-0.5 bg-gold/40 mx-auto mt-2.5" />
           </div>
 
