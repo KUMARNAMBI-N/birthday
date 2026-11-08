@@ -11,7 +11,7 @@ export const MemoriesSection: React.FC = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoItem | null>(null)
 
   // Duplicate photos for smooth infinite continuous loop
-  const rollingPhotos = [...photos, ...photos, ...photos]
+  const rollingPhotos = [...photos, ...photos]
 
   return (
     <section 
@@ -89,6 +89,17 @@ export const MemoriesSection: React.FC = () => {
             )
           })}
         </div>
+      </div>
+
+      {/* Next Section Connector to Chapter 3 */}
+      <div className="relative z-10 mt-6 sm:mt-8 text-center">
+        <a
+          href="#chapter-3"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-gold/40 text-[#EAD196] font-serif italic text-sm sm:text-base tracking-wide transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 backdrop-blur-sm shadow-md"
+          aria-label="Continue to Chapter 3"
+        >
+          <span>Chapter 03 – Namma Future ↓</span>
+        </a>
       </div>
 
       {/* Lightbox Modal */}

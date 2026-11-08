@@ -1,5 +1,4 @@
 import React from 'react'
-import { ChevronDown } from 'lucide-react'
 import { birthdayContent } from '../../config/birthdayContent'
 
 interface HeroSectionProps {
@@ -46,8 +45,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
       */}
       <img
         src="/images/birthday-childhood.jpg"
-        alt=""
-        aria-hidden="true"
+        alt={hero.heroPhotoCaption}
         className="absolute inset-0 w-full h-full object-cover"
         style={{ objectPosition: 'center 8%' }}
         loading="eager"
@@ -95,7 +93,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
             className="font-serif italic text-[13px] font-medium tracking-wide"
             style={{ color: 'rgba(255,248,235,0.92)', textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
           >
-            Aurora
+            {recipient.name}
           </span>
         </a>
 
@@ -159,7 +157,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
               letterSpacing: '-0.01em',
             }}
           >
-            My Beautiful Kriti
+            My Beautiful Kriti ❤️
           </span>
         </h1>
 
@@ -199,7 +197,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Supporting text */}
         <p
-          className="font-serif italic mb-7 max-w-sm sm:max-w-md px-4 leading-relaxed"
+          className="font-serif italic mb-3 max-w-sm sm:max-w-md px-4 leading-relaxed"
           style={{
             fontSize: 'clamp(0.85rem, 3.4vw, 0.98rem)',
             color: 'rgba(255,248,235,0.88)',
@@ -207,6 +205,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
           }}
         >
           &ldquo;{hero.introSentence}&rdquo;
+        </p>
+
+        {/* Photo Caption */}
+        <p
+          className="font-serif italic mb-6 tracking-wide"
+          style={{
+            fontSize: 'clamp(0.75rem, 2.8vw, 0.85rem)',
+            color: 'rgba(234,209,150,0.9)',
+            textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+          }}
+        >
+          {hero.heroPhotoCaption}
         </p>
 
         {/* Primary CTA */}
@@ -226,23 +236,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
           }}
           aria-label={`Open birthday letter for ${recipient.name}`}
         >
-          <span className="font-sans font-semibold uppercase">{hero.buttonText.replace(' ↓', '')}</span>
-          <ChevronDown
-            className="w-3.5 h-3.5 text-[#C6A15B] group-hover:translate-y-0.5 transition-transform duration-300"
-            aria-hidden="true"
-          />
+          <span className="font-sans font-semibold uppercase">{hero.buttonText}</span>
         </button>
 
-        {/* Scroll hint */}
+        {/* Bottom text */}
         <p
           className="mt-4 font-sans uppercase select-none"
           style={{
             fontSize: '8.5px',
             letterSpacing: '0.25em',
-            color: 'rgba(255,248,235,0.38)',
+            color: 'rgba(255,248,235,0.48)',
           }}
         >
-          Scroll to explore
+          A SPECIAL DAY. A SPECIAL PERSON. ENDLESS MEMORIES.
         </p>
       </div>
     </section>

@@ -17,6 +17,8 @@ export interface StoryChapter {
   paragraphs: string[]
   signoff?: string
   signature?: string
+  nextSectionId?: string
+  nextSectionLabel?: string
 }
 
 export interface BirthdayContent {

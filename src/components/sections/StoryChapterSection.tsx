@@ -128,6 +128,19 @@ export const StoryChapterSection: React.FC<StoryChapterProps> = ({
             </div>
           )}
         </div>
+
+        {/* Next Section Connector */}
+        {chapter.nextSectionId && (
+          <div className="mt-8 text-center">
+            <a
+              href={`#${chapter.nextSectionId}`}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-champagne/60 hover:bg-champagne border border-gold/40 text-burgundy font-serif italic text-sm sm:text-base tracking-wide transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
+              aria-label={`Continue to next section: ${chapter.nextSectionLabel}`}
+            >
+              <span>{chapter.nextSectionLabel || "Thodarvom ↓"}</span>
+            </a>
+          </div>
+        )}
       </div>
 
       <style>{`

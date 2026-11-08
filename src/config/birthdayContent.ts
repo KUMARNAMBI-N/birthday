@@ -17,12 +17,12 @@ export const birthdayContent: BirthdayContent = {
 
   hero: {
     decorativeLabel: "A LITTLE WORLD CREATED JUST FOR YOU",
-    mainTitle: "Happy Birthday, En Chellamaana Kriti ❤️",
+    mainTitle: "Happy Birthday, My Beautiful Kriti ❤️",
     herName: "Kriti",
-    introSentence: "Sila people namakku ellarum therinjavanga maadhiri therium. Aana avanga life-la evlo mukkiyam-nu namma realise pannumbothe… already avanga namba heart-la special idam pidichiruvanga.",
+    introSentence: "Some people make the world more beautiful simply by being in it. Today is all about celebrating you, your beautiful smile, your dreams, and all the happiness you bring into this world.",
     heroPhotoUrl: "./images/birthday-childhood.jpg",
-    heroPhotoCaption: "The one who holds my heart",
-    buttonText: "Namma Story Paarkkalaam ↓",
+    heroPhotoCaption: "A Beautiful Soul, A Beautiful Smile",
+    buttonText: "LET'S CELEBRATE YOUR DAY ↓",
   },
 
   // ── SECTION 2: PAGE ONE ────────────────────────────────────────────────
@@ -45,7 +45,9 @@ export const birthdayContent: BirthdayContent = {
       "Namma story innum aarambathula dhaan irukku Kriti. Aana indha story-la nee enakku romba special."
     ],
     signoff: "With all my heart,",
-    signature: "Yours Always ❤️"
+    signature: "Yours Always ❤️",
+    nextSectionId: "chapter-2",
+    nextSectionLabel: "Chapter 02 – Unakkaga Naan ↓"
   },
 
   // ── SECTION 3: PAGE TWO ────────────────────────────────────────────────
@@ -71,14 +73,16 @@ export const birthdayContent: BirthdayContent = {
       "Naan un life-ah control panna varala. Un life-la unakku strength-ah irukka varren."
     ],
     signoff: "Always by your side,",
-    signature: "Your Future Life Partner ❤️"
+    signature: "Your Future Life Partner ❤️",
+    nextSectionId: "memories-section",
+    nextSectionLabel: "Namma Chinna Ulagam (Memories) ↓"
   },
 
   // ── SECTION 4: OUR MEMORIES ────────────────────────────────────────────
   memories: {
     label: "NAMMA CHINNA ULAGAM",
     heading: "Chinna Moments, Azhagana Memories",
-    subheading: "Moonu photos, ennamo feelings — naan eppozhum vachikka virumburavai.",
+    subheading: "Namma azhagana moments, aayiram feelings — naan eppozhum nenjil vachikka virumburavai.",
     photos: [
       {
         id: "mem-couple-1",
@@ -86,7 +90,7 @@ export const birthdayContent: BirthdayContent = {
         caption: "Ennaikum en manasil oru special idam irukkum indha moment.",
         alt: "A treasured moment together that will always have a special place in my heart",
         rotationDeg: -2.0,
-        date: "Cherished Memory"
+        date: "Cherished Moment"
       },
       {
         id: "mem-couple-2",
@@ -103,6 +107,94 @@ export const birthdayContent: BirthdayContent = {
         alt: "A beautiful memory today, and a story we will keep writing together tomorrow",
         rotationDeg: -1.5,
         date: "Our Tomorrow"
+      },
+      {
+        id: "mem-couple-4",
+        url: "./images/couple-memory-04.jpeg",
+        caption: "Chinna vayasil irundhe azhagana un siripu, indha ulagathaiye velichamaakkum.",
+        alt: "Kriti's precious childhood smile",
+        rotationDeg: 2.0,
+        date: "Pure Innocence"
+      },
+      {
+        id: "mem-couple-5",
+        url: "./images/couple-memory-05.jpeg",
+        caption: "Malligaipoo choodi azhagaa vandha un mugam, en manasil eppozhum ninaivirukkum.",
+        alt: "Kriti in traditional saree with jasmine flowers",
+        rotationDeg: -1.8,
+        date: "Traditional Grace"
+      },
+      {
+        id: "mem-couple-6",
+        url: "./images/couple-memory-06.jpeg",
+        caption: "Un kooda pesumbodhu kidaikkira andha mananiraivu, vera engayum kidaikadhu.",
+        alt: "A heartwarming candid moment with Kriti",
+        rotationDeg: 1.5,
+        date: "Peaceful Heart"
+      },
+      {
+        id: "mem-couple-7",
+        url: "./images/couple-memory-07.jpeg",
+        caption: "Nee sirikkum ovvoru nodiyum, en ulagam muzhuvadhum azhagaagudhu.",
+        alt: "Radiant smile that lights up everything",
+        rotationDeg: -2.2,
+        date: "Pure Joy"
+      },
+      {
+        id: "mem-couple-8",
+        url: "./images/couple-memory-08.jpeg",
+        caption: "Un kangalil theriyum andha paasam, naan vaazhkai muzhukka kaakka virumbuvadhu.",
+        alt: "A deep affectionate gaze",
+        rotationDeg: 1.9,
+        date: "Unspoken Love"
+      },
+      {
+        id: "mem-couple-9",
+        url: "./images/couple-memory-09.jpeg",
+        caption: "Chinna chinna sandhosham, periya ninaivugalaaga maarum namma kooda.",
+        alt: "Little moments that turn into forever memories",
+        rotationDeg: -1.4,
+        date: "Sweet Moments"
+      },
+      {
+        id: "mem-couple-10",
+        url: "./images/couple-memory-10.jpeg",
+        caption: "Un kooda nadakkum ovvoru paadhaiyum enakku oru azhagana payanam dhaan.",
+        alt: "Every path walked with you is a beautiful journey",
+        rotationDeg: 2.1,
+        date: "Together Always"
+      },
+      {
+        id: "mem-couple-11",
+        url: "./images/couple-memory-11.jpeg",
+        caption: "Namma kadhaiyil ovvoru pakkamum azhagaa maarikitte pogudhu.",
+        alt: "Every page in our love story grows more beautiful",
+        rotationDeg: -1.7,
+        date: "Our Journey"
+      },
+      {
+        id: "mem-couple-12",
+        url: "./images/couple-memory-12.jpeg",
+        caption: "En valkaiyil nee vandha pinbu dhaan, ovvoru naalum oru thiruvizha pola aanadhu.",
+        alt: "Every day became a celebration after you came into my life",
+        rotationDeg: 1.6,
+        date: "A Blessed Life"
+      },
+      {
+        id: "mem-couple-13",
+        url: "./images/couple-memory-13.jpeg",
+        caption: "Un anbum un thunayum dhaan enakkana miga periya balam.",
+        alt: "Your love and presence is my greatest strength",
+        rotationDeg: -2.0,
+        date: "My Strength"
+      },
+      {
+        id: "mem-couple-14",
+        url: "./images/couple-memory-14.jpeg",
+        caption: "Namma anbin aazham, intha kaalam thandi naalaikum thodarum.",
+        alt: "A timeless love that will last through all the tomorrows",
+        rotationDeg: 1.8,
+        date: "Forever and Ever"
       }
     ]
   },
@@ -120,7 +212,7 @@ export const birthdayContent: BirthdayContent = {
       "Indha blue saree unakkaga.",
       "Indha ring namma relationship-oda oru azhagana ninaivaga irukkattum.",
       "Indha chocolates un birthday-ah innum konjam sweet-ah maathattum.",
-      "Indha three photos namma memories-ah unakku thirumba nyabagapaduthattum.",
+      "Indha photos namma azhagana memories-ah unakku thirumba nyabagapaduthattum.",
       "Indha website-la irukkura ovvoru word-um unakkaga naan create pannadhu. Nee eppovavadhu lonely-ah feel pannina, indha page-ah open panni padi. Unakku evlo special-ah irukka nu idhu nyabagapaduthattum.",
       "Kriti… unakku inime varra ovvoru birthday-um sirippoda irukkanum. Un kannula happiness mattum irukkanum. Un dreams ellame nijamaaganum. Nee aasai padra ella vishayangalum unakku kidaikkanum.",
       "Unakku eppovavadhu azhanum pola irundha azhu. Strong-ah irukkanum nu unnai nee force pannikkaadha.",
@@ -138,23 +230,30 @@ export const birthdayContent: BirthdayContent = {
       "Intha story-oda next pages namma rendu perum serndhu ezhudhuvom."
     ],
     signoff: "With lots of love,",
-    signature: "Un Future Life Partner ❤️💍"
+    signature: "Un Future Life Partner ❤️💍",
+    nextSectionId: "wish-section",
+    nextSectionLabel: "Birthday Blessings ↓"
   },
 
   // ── SECTION 6: BIRTHDAY BLESSINGS ──────────────────────────────────────
   wish: {
-    tag: "EN MANASIL IRUNDHU UN BIRTHDAY-KU",
-    heading: "My Birthday Wishes for You, Kriti",
+    tag: "EN MANASULA IRUNDHU UN BIRTHDAY-KU ❤️",
+    heading: "En Chellamaana Kriti-kkaana Birthday Wishes",
     paragraphs: [
-      "Un sirippu eppovume kuraiya koodadhu.",
-      "Un manam eppovume aanandhamaga irukkanum.",
-      "Nee aasai padra ella kanaavugalum nijamaaganum.",
-      "Kattinamaana naalkalil courage-um, thodarndhu poga strength-um unakku kidaikkanum.",
-      "Un life-la azhagana opportunities-um, nijamana happiness-um, unna nijamayil paargira people-um kidaikkanum.",
-      "Mukkiyamana vishayam — nee evlo special-nu nee eppozhum marakkakoodadhu.",
-      "Un birthday-la mattum illa, un life-la ovvoru ordinary day-lum nee happiness deserve panra."
+      "Kriti...",
+      "Innaikku unakku romba special-aana naal. Un birthday-ku en manasula irukkura sila aasaiyum wishes-um un kooda share pannanum nu aasai paduren.",
+      "1. Un sirippu eppovume kuraiya koodadhu. Eppovume ippadiye happy-ah irukkanum.",
+      "2. Un manasu eppovume sandhoshathala nirainjirukkanum.",
+      "3. Nee aasai padra ella kanavugalum nijamaaganum.",
+      "4. Un vazhkaila evlo kashtangal vandhaalum, adhai face panna thevaiyaana courage-um strength-um unakku kidaikkanum.",
+      "5. Nee edukkura ovvoru muyarchiyilayum success kidaikkanum.",
+      "6. Unakku pudicha ella vishayangalum un vazhkaila nadakkanum.",
+      "7. Unna unmaiya nesikkira, un feelings-ah purinjukkira nalla manushanga eppovume un kooda irukkanum.",
+      "8. Unakku pidicha idangalukku travel pannanum, pudhu experiences enjoy pannanum, neraya beautiful memories create pannanum.",
+      "9. Unakku eppovume nalla health-um, peace-um, happiness-um kidaikkanum.",
+      "10. Mukkiyama, nee evlo special-aana person nu nee eppovume marandhuda koodadhu."
     ],
-    blessing: "Namma life enna direction-la ponal, namma oru naal thirumba oru vazhiya serndhuva nu naan namburen. ❤️"
+    blessing: "Once Again, Happy Birthday En Chellamaana Kriti! ❤️"
   },
 
   // ── SECTION 7: SECRET SURPRISE ENVELOPE ────────────────────────────────
@@ -162,24 +261,20 @@ export const birthdayContent: BirthdayContent = {
     teaserLabel: "ONE LAST THING FROM MY HEART",
     promptText: "Sila words irukku… nee eppovume marakkakoodaadha nu naan virumburen.",
     buttonText: "Open My Heart ❤️",
-    revealedHeading: "My Promise to You, Kriti",
+    revealedHeading: "Unakku Ellaamaagavum Naan Irukka Virumburen",
     messageParagraphs: [
-      "Kriti…",
-      "Indha entire website-la irundhu oru vishayam mattum nee nyabagam vachikka venumna, adhu idhu dhaan:",
-      "En kadhal peira nee vera yaraavadhu mathiri nadikaanum illa. Un original self-ah mattum kaattu.",
-      "Nee happy-ah iru, sad-ah iru, excited-ah iru, worried-ah iru, silent-ah iru — un real self-ah purinja virumburen.",
-      "Ovvoru naal-um perfect-ah irukkum nu promise panna mudiyadhu.",
-      "Aana unna innum nanna love panna, innum nanna understand panna, innum nanna support panna naan always try pannuven.",
-      "Un achievements-ah celebrate pannuven. Un dreams-ah encourage pannuven. Un decisions-ah respect pannuven. Life-la kashtam varum nerathula un pakkathula iruppuven.",
-      "Oru naal indha long-distance days-ah namma rendu perum thirumba paakumbodhu, namma evlo thoorum vandhurukkoma nu smile panrom nu naan namburen.",
-      "Nagatham, kindness, respect, love — ippadi oru azhagana veedu namma rendu perum serndhu kattalaam.",
-      "En life-la part-ah irukka thanks, Kriti.",
-      "Un kooda oru azhagana future pathi kanaavaada oru person-ah irukka thanks.",
-      "Happy Birthday, Kriti. ❤️",
-      "Indha oru birthday mattum alla, namma serndhu celebrate panna neraya birthdays vandhirukattum."
+      "Kriti...",
+      "Unakku eppovume naan iruppen. Unakku oru brother-ah support venumna, oru father-ah care venumna, oru sister-ah share pannikka venumna, oru mother-ah paasam kaatta venumna, ennala mudinja alavukku andha ella paasathaiyum unakku kodukka virumburen.",
+      "Nee sandhoshama irukkumbodhu un kooda serndhu sirippen. Nee kashtathula irukkumbodhu un pecha porumaiya ketpen. Nee bayapadumbodhu unakku confidence kuduppen. Nee tired-ah irukkumbodhu unakku aarudhala iruppen.",
+      "Unakku ellame naan mattum dhaan nu sollala. Aana unakku eppovume oru nambikkaiyaana person-ah, un pakkathula irukkura oru support-ah naan irukka virumburen.",
+      "Unakku edhu thevaiya irundhaalum, en kitta thayangama sollanum. Un feelings-ah maraikka vendam. Happy-ah irundhaalum, sad-ah irundhaalum, un original self-ah en kitta kaattalaam.",
+      "Unna eppovume respect pannuven. Un dreams-ku support pannuven. Un happiness-ah celebrate pannuven.",
+      "Once Again, Happy Birthday En Chellamaana Kriti! ❤️",
+      "Nee eppovume sandhoshama irukkanum. Un kanavugal ellame nijamaaganum. Un mugathula irukkura andha azhagana sirippu eppovume maarama irukkanum.",
+      "Unakku indha varusham neraya happiness, success, love and beautiful memories kondu varanum nu manasara wish panren."
     ],
-    loveNote: "Innaikku different cities. Naalaikku oru azhagana kanaavu. ❤️",
-    signature: "Un Future Life Partner ❤️"
+    loveNote: "Un vazhkaiyoda ella situations-layum, unakku mudinja alavukku thunaiya nikka naan eppovume un kooda iruppen. ❤️",
+    signature: "With Lots of Love ❤️"
   },
 
   // ── SECTION 8: FINAL SCREEN ────────────────────────────────────────────
