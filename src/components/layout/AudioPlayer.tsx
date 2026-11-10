@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Music } from 'lucide-react'
+import { Play, Pause } from 'lucide-react'
 import { birthdayContent } from '../../config/birthdayContent'
+
+const DEFAULT_VOLUME = 0.3
+
+// Module-level references to guarantee a single active audio instance at all times
+let activeAudioInstance: HTMLAudioElement | null = null
+let activeSynthInstance: GentleMusicBox | null = null
 
 /**
  * Procedural gentle music-box notes (romantic pentatonic melody)
@@ -36,11 +42,11 @@ class GentleMusicBox {
     osc2.frequency.setValueAtTime(freq * 2.01, now)
 
     gain.gain.setValueAtTime(0, now)
-    gain.gain.linearRampToValueAtTime(0.08, now + 0.04)
+    gain.gain.linearRampToValueAtTime(0.08 * DEFAULT_VOLUME, now + 0.04)
     gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.4)
 
     gain2.gain.setValueAtTime(0, now)
-    gain2.gain.linearRampToValueAtTime(0.02, now + 0.03)
+    gain2.gain.linearRampToValueAtTime(0.02 * DEFAULT_VOLUME, now + 0.03)
     gain2.gain.exponentialRampToValueAtTime(0.0001, now + 1.2)
 
     osc.connect(gain)
@@ -56,6 +62,14 @@ class GentleMusicBox {
 
   start() {
     if (this.isPlaying) return
+    if (activeSynthInstance && activeSynthInstance !== this) {
+      activeSynthInstance.stop()
+    }
+    if (activeAudioInstance && !activeAudioInstance.paused) {
+      activeAudioInstance.pause()
+    }
+    activeSynthInstance = this
+
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
       this.ctx = new AudioCtx()
@@ -86,90 +100,280 @@ class GentleMusicBox {
 }
 
 export const AudioPlayer: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [useSynth, setUseSynth] = useState(false)
-  const [showTooltip, setShowTooltip] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
   const synthRef = useRef<GentleMusicBox | null>(null)
+  const useSynthRef = useRef(false)
   const userPausedRef = useRef(false)
+  const unlockedRef = useRef(false)
+  const autoPlayInFlightRef = useRef(false)
+  const gesturePlayInFlightRef = useRef(false)
+  const volumeInitializedRef = useRef(false)
+  const triedRelativeFallbackRef = useRef(false)
+  const cleanupListenersRef = useRef<(() => void) | null>(null)
 
-  useEffect(() => {
-    synthRef.current = new GentleMusicBox()
+  const attemptPlay = (isUserGesture: boolean) => {
+    if (userPausedRef.current) return
+    const currentAudio = audioRef.current
+    if (!currentAudio) return
 
-    let unlocked = false
-    const events = ['click', 'touchstart', 'touchmove', 'pointerdown', 'keydown', 'scroll', 'wheel', 'mousemove']
-
-    const cleanupListeners = () => {
-      events.forEach((evt) => window.removeEventListener(evt, tryAutoPlay))
+    // If audio is genuinely already playing, sync state and remove fallback listeners
+    if (unlockedRef.current && !currentAudio.paused) {
+      setIsPlaying(true)
+      cleanupListenersRef.current?.()
+      return
     }
 
-    const tryAutoPlay = async () => {
-      if (unlocked || userPausedRef.current || !audioRef.current) return
-      try {
-        await audioRef.current.play()
-        unlocked = true
-        setIsPlaying(true)
-        setShowTooltip(false)
-        cleanupListeners()
-      } catch {
-        // Browser requires a user gesture before unmuted audio can start;
-        // keep listeners active until the first interaction unlocks playback.
+    if (gesturePlayInFlightRef.current) return
+    if (!isUserGesture && autoPlayInFlightRef.current) return
+
+    // Guarantee single active audio instance
+    if (activeAudioInstance && activeAudioInstance !== currentAudio) {
+      activeAudioInstance.pause()
+    }
+    activeAudioInstance = currentAudio
+    synthRef.current?.stop()
+
+    if (!volumeInitializedRef.current) {
+      currentAudio.volume = DEFAULT_VOLUME
+      volumeInitializedRef.current = true
+    }
+    currentAudio.muted = false
+
+    if (isUserGesture) {
+      gesturePlayInFlightRef.current = true
+    } else {
+      autoPlayInFlightRef.current = true
+    }
+
+    const playPromise = currentAudio.play()
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          if (isUserGesture) {
+            gesturePlayInFlightRef.current = false
+          } else {
+            autoPlayInFlightRef.current = false
+          }
+          if (userPausedRef.current) {
+            currentAudio.pause()
+            setIsPlaying(false)
+            return
+          }
+          if (!currentAudio.paused) {
+            unlockedRef.current = true
+            setIsPlaying(true)
+            cleanupListenersRef.current?.()
+          }
+        })
+        .catch(() => {
+          if (isUserGesture) {
+            gesturePlayInFlightRef.current = false
+          } else {
+            autoPlayInFlightRef.current = false
+          }
+          // Browser blocked unmuted autoplay; keep listeners active for the first genuine user interaction
+          if (currentAudio.paused) {
+            setIsPlaying(false)
+          }
+        })
+    } else {
+      if (isUserGesture) {
+        gesturePlayInFlightRef.current = false
+      } else {
+        autoPlayInFlightRef.current = false
       }
     }
+  }
 
-    tryAutoPlay()
-    events.forEach((evt) => window.addEventListener(evt, tryAutoPlay, { passive: true }))
-
-    return () => {
-      cleanupListeners()
-      synthRef.current?.stop()
+  useEffect(() => {
+    if (!synthRef.current) {
+      synthRef.current = new GentleMusicBox()
     }
-  }, [])
+    const audio = audioRef.current
 
-  const togglePlay = async () => {
-    setShowTooltip(false)
+    if (audio) {
+      if (activeAudioInstance && activeAudioInstance !== audio) {
+        activeAudioInstance.pause()
+      }
+      activeAudioInstance = audio
+      if (!volumeInitializedRef.current) {
+        audio.volume = DEFAULT_VOLUME
+        volumeInitializedRef.current = true
+      }
+      audio.muted = false
+    }
 
-    // If state says playing, check whether the browser actually started audio yet
-    if (isPlaying) {
-      if (audioRef.current && !useSynth && audioRef.current.paused) {
-        try {
-          userPausedRef.current = false
-          await audioRef.current.play()
-          setIsPlaying(true)
+    const gestureEvents = [
+      'click',
+      'touchend',
+      'pointerup',
+      'keydown',
+      'mousedown',
+      'pointerdown',
+      'touchstart',
+    ]
+
+    const unlockAudio = (e: Event) => {
+      // Do not intercept clicks on the music button itself — let togglePlay handle it directly
+      if (buttonRef.current && e.target instanceof Node && buttonRef.current.contains(e.target)) {
+        return
+      }
+
+      // On touch devices, touchstart and touch pointerdown fire before the browser grants
+      // user activation; skip them when userActivation is not yet active so pointerup/touchend/click succeeds
+      if (
+        e.type === 'touchstart' ||
+        (e.type === 'pointerdown' && (e as PointerEvent).pointerType === 'touch')
+      ) {
+        const nav = navigator as Navigator & { userActivation?: { isActive: boolean } }
+        if (nav.userActivation && !nav.userActivation.isActive) {
           return
-        } catch {
-          // continue to pause if play failed
         }
       }
 
-      userPausedRef.current = true
-      if (audioRef.current && !useSynth) {
+      attemptPlay(true)
+    }
+
+    const handleCustomUnlock = () => {
+      attemptPlay(true)
+    }
+
+    const cleanupListeners = () => {
+      gestureEvents.forEach((evt) => {
+        document.removeEventListener(evt, unlockAudio, { capture: true })
+      })
+      window.removeEventListener('birthday-unlock-audio', handleCustomUnlock)
+    }
+    cleanupListenersRef.current = cleanupListeners
+
+    const handlePageClose = () => {
+      autoPlayInFlightRef.current = false
+      gesturePlayInFlightRef.current = false
+      if (audioRef.current && !audioRef.current.paused) {
         audioRef.current.pause()
+      }
+      synthRef.current?.stop()
+      setIsPlaying(false)
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        handlePageClose()
+      } else if (document.visibilityState === 'visible') {
+        if (unlockedRef.current && !userPausedRef.current) {
+          const currentAudio = audioRef.current
+          if (currentAudio && !useSynthRef.current) {
+            currentAudio.muted = false
+            currentAudio.play().then(() => {
+              setIsPlaying(true)
+            }).catch(() => {
+              setIsPlaying(false)
+            })
+          } else if (useSynthRef.current) {
+            synthRef.current?.start()
+            setIsPlaying(true)
+          }
+        }
+      }
+    }
+
+    if (!unlockedRef.current && !userPausedRef.current) {
+      gestureEvents.forEach((evt) => {
+        document.addEventListener(evt, unlockAudio, { capture: true, passive: true })
+      })
+      window.addEventListener('birthday-unlock-audio', handleCustomUnlock)
+    }
+
+    // Attempt immediate autoplay on initial page load / refresh
+    attemptPlay(false)
+
+    window.addEventListener('pagehide', handlePageClose)
+    window.addEventListener('beforeunload', handlePageClose)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      cleanupListeners()
+      window.removeEventListener('pagehide', handlePageClose)
+      window.removeEventListener('beforeunload', handlePageClose)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      // Do not pause during React 18 StrictMode's simulated unmount when the element remains in the DOM
+      if (audio && !audio.isConnected) {
+        handlePageClose()
+        if (activeAudioInstance === audio) {
+          activeAudioInstance = null
+        }
+      }
+    }
+  }, [])
+
+  const togglePlay = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+
+    const audio = audioRef.current
+
+    // Check actual audio element state: if sound is currently playing, pause it immediately
+    const isActuallyPlaying = audio && !useSynth ? !audio.paused : isPlaying
+
+    if (isActuallyPlaying) {
+      userPausedRef.current = true
+      unlockedRef.current = true
+      autoPlayInFlightRef.current = false
+      gesturePlayInFlightRef.current = false
+      cleanupListenersRef.current?.()
+      if (audio) {
+        audio.pause()
       }
       synthRef.current?.stop()
       setIsPlaying(false)
       return
     }
 
+    // Otherwise sound is paused — start playing immediately on click
     userPausedRef.current = false
-    if (audioRef.current && !useSynth) {
+    if (audio && !useSynth) {
       try {
-        await audioRef.current.play()
+        if (activeAudioInstance && activeAudioInstance !== audio) {
+          activeAudioInstance.pause()
+        }
+        activeAudioInstance = audio
+        synthRef.current?.stop()
+        if (!volumeInitializedRef.current) {
+          audio.volume = DEFAULT_VOLUME
+          volumeInitializedRef.current = true
+        }
+        audio.muted = false
+        await audio.play()
+        unlockedRef.current = true
+        cleanupListenersRef.current?.()
         setIsPlaying(true)
         return
       } catch (err) {
-        console.info('Switching to gentle chime synth.', err)
-        setUseSynth(true)
+        if (audio.error) {
+          console.info('Switching to gentle chime synth.', err)
+          useSynthRef.current = true
+          setUseSynth(true)
+        } else {
+          setIsPlaying(false)
+          return
+        }
       }
     }
 
+    if (audio && !audio.paused) {
+      audio.pause()
+    }
     synthRef.current?.start()
+    unlockedRef.current = true
+    cleanupListenersRef.current?.()
     setIsPlaying(true)
   }
 
   return (
     <div
-      className="fixed z-50"
+      className="fixed z-[60]"
       style={{
         bottom: 'calc(env(safe-area-inset-bottom, 0px) + 20px)',
         right: '20px',
@@ -178,22 +382,51 @@ export const AudioPlayer: React.FC = () => {
       <audio
         ref={audioRef}
         src={birthdayContent.audio.src}
-        autoPlay
         loop
+        playsInline
         preload="auto"
-        onCanPlay={() => {
-          if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
-            audioRef.current.play().catch(() => {})
+        onLoadedMetadata={() => {
+          if (audioRef.current && !volumeInitializedRef.current) {
+            audioRef.current.volume = DEFAULT_VOLUME
+            volumeInitializedRef.current = true
           }
         }}
-        onError={() => setUseSynth(true)}
+        onPlaying={() => {
+          if (!userPausedRef.current) {
+            unlockedRef.current = true
+            cleanupListenersRef.current?.()
+            setIsPlaying(true)
+          }
+        }}
+        onPause={() => {
+          setIsPlaying(false)
+        }}
+        onCanPlay={() => {
+          if (!userPausedRef.current && !unlockedRef.current && audioRef.current && audioRef.current.paused) {
+            attemptPlay(false)
+          }
+        }}
+        onError={() => {
+          // If absolute path failed under a relative subpath deployment, try relative path once
+          if (audioRef.current && !triedRelativeFallbackRef.current && birthdayContent.audio.src.startsWith('/')) {
+            triedRelativeFallbackRef.current = true
+            audioRef.current.src = `.${birthdayContent.audio.src}`
+            audioRef.current.load()
+            attemptPlay(false)
+            return
+          }
+          useSynthRef.current = true
+          setUseSynth(true)
+        }}
       />
 
       {/* Minimal circular music button */}
       <button
+        ref={buttonRef}
         type="button"
         onClick={togglePlay}
-        aria-label={isPlaying ? 'Pause music' : 'Play romantic music'}
+        aria-label={isPlaying ? 'Pause music' : 'Play music'}
+        title={isPlaying ? 'Pause music' : 'Play music'}
         className={`relative flex items-center justify-center w-11 h-11 rounded-full border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C6A15B] focus:ring-offset-1 ${
           isPlaying
             ? 'bg-[#650B1B] border-[rgba(198,161,91,0.6)] shadow-[0_4px_20px_rgba(101,11,27,0.35)]'
@@ -201,50 +434,11 @@ export const AudioPlayer: React.FC = () => {
         }`}
       >
         {isPlaying ? (
-          /* Equalizer bars when playing */
-          <div className="flex items-end gap-[2.5px] h-3.5">
-            <span
-              className="w-[3px] rounded-full bg-[#C6A15B]"
-              style={{ animation: 'eqBar 0.8s ease-in-out infinite', height: '4px' }}
-            />
-            <span
-              className="w-[3px] rounded-full bg-[#EAD196]"
-              style={{ animation: 'eqBar 1.1s ease-in-out infinite 0.2s', height: '4px' }}
-            />
-            <span
-              className="w-[3px] rounded-full bg-[#C6A15B]"
-              style={{ animation: 'eqBar 0.9s ease-in-out infinite 0.4s', height: '4px' }}
-            />
-          </div>
+          <Pause className="w-4 h-4 text-[#EAD196]" />
         ) : (
-          <Music className="w-4 h-4 text-[#9A7432]" />
+          <Play className="w-4 h-4 text-[#9A7432] translate-x-[1px]" />
         )}
       </button>
-
-      {/* Minimal tooltip */}
-      {showTooltip && (
-        <div className="absolute bottom-full right-0 mb-2 pointer-events-none">
-          <div className="bg-[#30050D] text-[#F8F1E3] text-[10px] font-sans px-2.5 py-1 rounded-lg border border-[rgba(198,161,91,0.3)] shadow-md whitespace-nowrap">
-            ♪ Play music
-          </div>
-          {/* Tooltip arrow */}
-          <div
-            className="absolute right-4 top-full w-0 h-0"
-            style={{
-              borderLeft: '4px solid transparent',
-              borderRight: '4px solid transparent',
-              borderTop: '4px solid #30050D',
-            }}
-          />
-        </div>
-      )}
-
-      <style>{`
-        @keyframes eqBar {
-          0%, 100% { height: 3px; }
-          50% { height: 14px; }
-        }
-      `}</style>
     </div>
   )
 }
