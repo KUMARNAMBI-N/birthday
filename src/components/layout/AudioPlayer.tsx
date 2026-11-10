@@ -86,22 +86,25 @@ class GentleMusicBox {
 }
 
 export const AudioPlayer: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const [useSynth, setUseSynth] = useState(false)
-  const [showTooltip, setShowTooltip] = useState(true)
+  const [showTooltip, setShowTooltip] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const synthRef = useRef<GentleMusicBox | null>(null)
+  const userPausedRef = useRef(false)
 
   useEffect(() => {
     synthRef.current = new GentleMusicBox()
-    
-    // Auto-dismiss tooltip after 7s to never clutter mobile
-    const timer = setTimeout(() => setShowTooltip(false), 7000)
 
-    // Attempt to play the MP3 automatically on load or on first user interaction
     let unlocked = false
+    const events = ['click', 'touchstart', 'touchmove', 'pointerdown', 'keydown', 'scroll', 'wheel', 'mousemove']
+
+    const cleanupListeners = () => {
+      events.forEach((evt) => window.removeEventListener(evt, tryAutoPlay))
+    }
+
     const tryAutoPlay = async () => {
-      if (unlocked || !audioRef.current) return
+      if (unlocked || userPausedRef.current || !audioRef.current) return
       try {
         await audioRef.current.play()
         unlocked = true
@@ -109,23 +112,15 @@ export const AudioPlayer: React.FC = () => {
         setShowTooltip(false)
         cleanupListeners()
       } catch {
-        // Browser blocked unmuted autoplay until first interaction
+        // Browser requires a user gesture before unmuted audio can start;
+        // keep listeners active until the first interaction unlocks playback.
       }
     }
 
-    const cleanupListeners = () => {
-      window.removeEventListener('click', tryAutoPlay)
-      window.removeEventListener('touchstart', tryAutoPlay)
-      window.removeEventListener('keydown', tryAutoPlay)
-    }
-
     tryAutoPlay()
-    window.addEventListener('click', tryAutoPlay, { once: true })
-    window.addEventListener('touchstart', tryAutoPlay, { once: true })
-    window.addEventListener('keydown', tryAutoPlay, { once: true })
+    events.forEach((evt) => window.addEventListener(evt, tryAutoPlay, { passive: true }))
 
     return () => {
-      clearTimeout(timer)
       cleanupListeners()
       synthRef.current?.stop()
     }
@@ -134,7 +129,20 @@ export const AudioPlayer: React.FC = () => {
   const togglePlay = async () => {
     setShowTooltip(false)
 
+    // If state says playing, check whether the browser actually started audio yet
     if (isPlaying) {
+      if (audioRef.current && !useSynth && audioRef.current.paused) {
+        try {
+          userPausedRef.current = false
+          await audioRef.current.play()
+          setIsPlaying(true)
+          return
+        } catch {
+          // continue to pause if play failed
+        }
+      }
+
+      userPausedRef.current = true
       if (audioRef.current && !useSynth) {
         audioRef.current.pause()
       }
@@ -143,6 +151,7 @@ export const AudioPlayer: React.FC = () => {
       return
     }
 
+    userPausedRef.current = false
     if (audioRef.current && !useSynth) {
       try {
         await audioRef.current.play()
@@ -169,8 +178,14 @@ export const AudioPlayer: React.FC = () => {
       <audio
         ref={audioRef}
         src={birthdayContent.audio.src}
+        autoPlay
         loop
         preload="auto"
+        onCanPlay={() => {
+          if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
+            audioRef.current.play().catch(() => {})
+          }
+        }}
         onError={() => setUseSynth(true)}
       />
 
