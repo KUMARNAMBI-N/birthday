@@ -97,8 +97,36 @@ export const AudioPlayer: React.FC = () => {
     
     // Auto-dismiss tooltip after 7s to never clutter mobile
     const timer = setTimeout(() => setShowTooltip(false), 7000)
+
+    // Attempt to play the MP3 automatically on load or on first user interaction
+    let unlocked = false
+    const tryAutoPlay = async () => {
+      if (unlocked || !audioRef.current) return
+      try {
+        await audioRef.current.play()
+        unlocked = true
+        setIsPlaying(true)
+        setShowTooltip(false)
+        cleanupListeners()
+      } catch {
+        // Browser blocked unmuted autoplay until first interaction
+      }
+    }
+
+    const cleanupListeners = () => {
+      window.removeEventListener('click', tryAutoPlay)
+      window.removeEventListener('touchstart', tryAutoPlay)
+      window.removeEventListener('keydown', tryAutoPlay)
+    }
+
+    tryAutoPlay()
+    window.addEventListener('click', tryAutoPlay, { once: true })
+    window.addEventListener('touchstart', tryAutoPlay, { once: true })
+    window.addEventListener('keydown', tryAutoPlay, { once: true })
+
     return () => {
       clearTimeout(timer)
+      cleanupListeners()
       synthRef.current?.stop()
     }
   }, [])
@@ -142,7 +170,7 @@ export const AudioPlayer: React.FC = () => {
         ref={audioRef}
         src={birthdayContent.audio.src}
         loop
-        preload="none"
+        preload="auto"
         onError={() => setUseSynth(true)}
       />
 

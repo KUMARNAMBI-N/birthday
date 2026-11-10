@@ -276,9 +276,9 @@ export const birthdayContent: BirthdayContent = {
   },
 
   audio: {
-    title: "Ethereal Birthday Reverie",
-    artist: "Romantic Music Box & Harp",
-    src: "/audio/birthday-ambient.mp3",
+    title: "Birthday Melody for Kriti",
+    artist: "With Love",
+    src: "/images/audiomass-output.mp3",
     enabled: true
   }
 }

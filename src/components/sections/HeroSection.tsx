@@ -1,5 +1,6 @@
 import React from 'react'
 import { birthdayContent } from '../../config/birthdayContent'
+import { BirthdayWelcomeOverlay, FloatingPetals } from '../decorations/FloatingPetals'
 
 interface HeroSectionProps {
   onOpenLetter: () => void
@@ -33,48 +34,78 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden flex flex-col"
+      className="relative w-full overflow-hidden flex flex-col bg-[#22040A]"
       style={{ minHeight: '100svh' }}
       aria-label={`Birthday greeting for ${recipient.name}`}
     >
+      {/* ── AUTOMATIC OPENING BIRTHDAY WELCOME OVERLAY ────────── */}
+      <BirthdayWelcomeOverlay />
+
+      {/* ── FLOATING HEARTS, PETALS & GOLDEN SPARKLES ─────────── */}
+      <FloatingPetals />
+
       {/* ── FULL-BLEED BACKGROUND PHOTOGRAPH ──────────────────── */}
       {/*
-        objectPosition: 'center 8%' ensures the baby's face stays
-        in the upper portion of the frame on portrait mobile viewports.
-        No overlay touches the face area.
+        Ambient blurred backdrop on wide screens prevents harsh cropping
+        while keeping the main portrait naturally proportioned and clear.
       */}
-      <img
-        src="/images/birthday-childhood.jpg"
-        alt={hero.heroPhotoCaption}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ objectPosition: 'center 8%' }}
-        loading="eager"
-        decoding="async"
-      />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <img
+          src="/images/birthday-childhood.jpg"
+          alt=""
+          className="hidden md:block absolute inset-0 w-full h-full object-cover scale-105 blur-2xl opacity-55"
+          style={{ objectPosition: 'center 25%' }}
+          loading="eager"
+          decoding="async"
+        />
+
+        <div className="relative w-full h-full max-w-4xl mx-auto">
+          <img
+            src="/images/birthday-childhood.jpg"
+            alt={hero.heroPhotoCaption}
+            className="w-full h-full object-cover hero-bg-photo"
+            loading="eager"
+            decoding="async"
+          />
+          {/* Subtle side feathering on wide desktop viewports */}
+          <div
+            className="hidden md:block absolute inset-y-0 left-0 w-24 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to right, rgba(34,4,10,0.45), transparent)',
+            }}
+          />
+          <div
+            className="hidden md:block absolute inset-y-0 right-0 w-24 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to left, rgba(34,4,10,0.45), transparent)',
+            }}
+          />
+        </div>
+      </div>
 
       {/*
-        GRADIENT SCRIM — bottom half only.
-        Starts transparent at ~40% from top (well below the face),
-        deepens to a warm dark wine at the very bottom.
-        This makes white text legible without touching the face.
+        BURGUNDY GRADIENT OVERLAY — bottom portion only.
+        Leaves the upper ~46% completely clear so Kriti's face and smile
+        remain bright and natural, then transitions into a warm luxury burgundy.
       */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
             'linear-gradient(to bottom, ' +
-            'transparent 0%, ' +
-            'transparent 35%, ' +
-            'rgba(30,4,10,0.25) 50%, ' +
-            'rgba(30,4,10,0.65) 68%, ' +
-            'rgba(20,3,8,0.88) 85%, ' +
-            'rgba(20,3,8,0.94) 100%)',
+            'rgba(34,4,10,0.12) 0%, ' +
+            'transparent 14%, ' +
+            'transparent 46%, ' +
+            'rgba(77,8,21,0.28) 58%, ' +
+            'rgba(62,7,18,0.64) 72%, ' +
+            'rgba(46,5,13,0.82) 86%, ' +
+            'rgba(34,4,10,0.90) 100%)',
         }}
         aria-hidden="true"
       />
 
       {/* ── NAVIGATION ROW (top, over photo) ──────────────────── */}
-      <div className="relative z-10 w-full px-5 pt-4 pb-2 flex items-center justify-between">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8 pt-4 pb-2 flex items-center justify-between">
         {/* Brand mark */}
         <a
           href="#hero"
@@ -108,7 +139,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
         <div
           className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-sans uppercase tracking-[0.2em] font-semibold"
           style={{
-            background: 'rgba(30,4,10,0.45)',
+            background: 'rgba(46,5,13,0.48)',
             border: '1px solid rgba(198,161,91,0.45)',
             color: 'rgba(234,209,150,0.95)',
             backdropFilter: 'blur(4px)',
@@ -119,21 +150,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
         </div>
       </div>
 
-      {/* ── SPACER — pushes content down, face stays clear ─────── */}
-      <div className="flex-1" />
+      {/* ── SPACER — keeps Kriti's face clearly visible on all screens ─────── */}
+      <div className="flex-1 min-h-[38svh] sm:min-h-[42svh]" />
 
-      {/* ── BIRTHDAY CONTENT (bottom, over scrim) ─────────────── */}
+      {/* ── BIRTHDAY CONTENT (bottom, over warm burgundy scrim) ─────────────── */}
       <div
-        className="relative z-10 w-full px-6 sm:px-8 pb-10 sm:pb-14 flex flex-col items-center text-center"
+        className="relative z-10 w-full px-5 sm:px-8 pb-8 sm:pb-12 flex flex-col items-center text-center"
         style={{ animation: 'panelRise 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s both' }}
       >
         {/* Kicker label */}
         <p
-          className="font-sans font-semibold uppercase mb-3 select-none"
+          className="font-sans font-semibold uppercase mb-2.5 sm:mb-3 select-none"
           style={{
             fontSize: '9.5px',
             letterSpacing: '0.28em',
-            color: 'rgba(198,161,91,0.9)',
+            color: 'rgba(234,209,150,0.92)',
+            textShadow: '0 1px 4px rgba(0,0,0,0.35)',
           }}
           aria-hidden="true"
         >
@@ -142,26 +174,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Main heading */}
         <h1
-          className="flex flex-col items-center mb-2"
-          style={{ lineHeight: 1.1 }}
+          className="hero-heading-glow flex flex-col items-center mb-2.5 sm:mb-3"
+          style={{ lineHeight: 1.14 }}
         >
           <span
             className="font-script"
             style={{
-              fontSize: 'clamp(2rem, 9vw, 3rem)',
+              fontSize: 'clamp(2.15rem, 8.5vw, 3.25rem)',
               color: '#FFFFFF',
-              textShadow: '0 2px 12px rgba(0,0,0,0.5)',
             }}
           >
             Happy Birthday,
           </span>
           <span
-            className="font-serif italic font-medium"
+            className="font-serif italic font-medium mt-0.5"
             style={{
-              fontSize: 'clamp(1.45rem, 6vw, 2.25rem)',
+              fontSize: 'clamp(1.5rem, 5.8vw, 2.35rem)',
               color: '#FFFFFF',
-              textShadow: '0 2px 12px rgba(0,0,0,0.5)',
-              letterSpacing: '-0.01em',
+              letterSpacing: '0.01em',
             }}
           >
             My Princess Kriti!
@@ -170,10 +200,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Name in gold */}
         <span
-          className="font-serif font-semibold text-gold-foil mb-2"
+          className="font-serif font-semibold text-gold-foil mb-3 sm:mb-3.5"
           style={{
-            fontSize: 'clamp(1.3rem, 5.5vw, 1.75rem)',
-            letterSpacing: '0.12em',
+            fontSize: 'clamp(1.35rem, 5.2vw, 1.8rem)',
+            letterSpacing: '0.14em',
             filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))',
           }}
         >
@@ -182,10 +212,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Birthday Date Display */}
         <div
-          className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full mb-3 text-[10px] font-sans uppercase tracking-[0.22em] text-[#EAD196]"
+          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full mb-3.5 sm:mb-4 text-[10px] sm:text-[10.5px] font-sans uppercase tracking-[0.22em] text-[#EAD196]"
           style={{
-            background: 'rgba(101,11,27,0.5)',
-            border: '1px solid rgba(198,161,91,0.4)',
+            background: 'rgba(101,11,27,0.58)',
+            border: '1px solid rgba(198,161,91,0.45)',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
           }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#C6A15B]" aria-hidden="true" />
@@ -194,21 +225,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Thin gold rule */}
         <div
-          className="w-16 mb-4"
+          className="w-16 mb-3.5 sm:mb-4"
           style={{
             height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(198,161,91,0.8), transparent)',
+            background: 'linear-gradient(90deg, transparent, rgba(198,161,91,0.85), transparent)',
           }}
           aria-hidden="true"
         />
 
         {/* Supporting text */}
         <p
-          className="font-serif italic mb-3 max-w-sm sm:max-w-md px-4 leading-relaxed"
+          className="font-serif italic mb-3 max-w-sm sm:max-w-md px-3 sm:px-4 leading-relaxed"
           style={{
-            fontSize: 'clamp(0.85rem, 3.4vw, 0.98rem)',
-            color: 'rgba(255,248,235,0.88)',
-            textShadow: '0 1px 6px rgba(0,0,0,0.35)',
+            fontSize: 'clamp(0.86rem, 3.3vw, 1rem)',
+            color: 'rgba(255,248,235,0.92)',
+            textShadow: '0 1px 6px rgba(0,0,0,0.38)',
           }}
         >
           &ldquo;{hero.introSentence}&rdquo;
@@ -216,10 +247,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Photo Caption */}
         <p
-          className="font-serif italic mb-6 tracking-wide"
+          className="font-serif italic mb-5 sm:mb-6 tracking-wide"
           style={{
-            fontSize: 'clamp(0.75rem, 2.8vw, 0.85rem)',
-            color: 'rgba(234,209,150,0.9)',
+            fontSize: 'clamp(0.76rem, 2.8vw, 0.88rem)',
+            color: 'rgba(234,209,150,0.92)',
             textShadow: '0 1px 4px rgba(0,0,0,0.4)',
           }}
         >
@@ -231,14 +262,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
           type="button"
           id="hero-open-letter-btn"
           onClick={onOpenLetter}
-          className="group inline-flex items-center justify-center gap-2 rounded-full text-[#F8F1E3] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-[#C6A15B] focus:ring-offset-2 focus:ring-offset-transparent"
+          className="hero-cta-btn group inline-flex items-center justify-center gap-2 rounded-full text-[#F8F1E3] transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03] active:translate-y-0 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#C6A15B] focus:ring-offset-2 focus:ring-offset-transparent"
           style={{
-            background: 'rgba(101,11,27,0.9)',
-            border: '1px solid rgba(198,161,91,0.55)',
+            background: 'rgba(101,11,27,0.92)',
+            border: '1px solid rgba(198,161,91,0.6)',
             padding: '13px 32px',
             fontSize: '11px',
             letterSpacing: '0.18em',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(234,209,150,0.15)',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(234,209,150,0.18)',
             backdropFilter: 'blur(4px)',
           }}
           aria-label={`Open birthday letter for ${recipient.name}`}
@@ -252,12 +283,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
           style={{
             fontSize: '8.5px',
             letterSpacing: '0.25em',
-            color: 'rgba(255,248,235,0.48)',
+            color: 'rgba(255,248,235,0.52)',
           }}
         >
           A SPECIAL DAY. A SPECIAL PERSON. ENDLESS MEMORIES.
         </p>
       </div>
+
+      <style>{`
+        .hero-bg-photo {
+          object-position: center 18%;
+        }
+        @media (min-width: 640px) {
+          .hero-bg-photo {
+            object-position: center 22%;
+          }
+        }
+        @media (min-width: 1024px) {
+          .hero-bg-photo {
+            object-position: center 24%;
+          }
+        }
+        .hero-cta-btn:hover {
+          background: rgba(118, 14, 33, 0.96) !important;
+          border-color: rgba(234, 209, 150, 0.85) !important;
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.42), 0 0 18px rgba(198, 161, 91, 0.25), inset 0 1px 0 rgba(234, 209, 150, 0.28) !important;
+        }
+        @keyframes heroHeadingGlow {
+          0%, 100% {
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5), 0 0 16px rgba(234, 209, 150, 0.22);
+          }
+          50% {
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5), 0 0 26px rgba(234, 209, 150, 0.48), 0 0 42px rgba(244, 169, 184, 0.22);
+          }
+        }
+        .hero-heading-glow span {
+          animation: heroHeadingGlow 3.6s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-heading-glow span {
+            animation: none;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+          }
+        }
+      `}</style>
     </section>
   )
 }
