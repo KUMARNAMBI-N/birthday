@@ -235,7 +235,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
 
         {/* Supporting text */}
         <p
-          className="font-serif italic mb-3 max-w-sm sm:max-w-md px-3 sm:px-4 leading-relaxed"
+          className="font-serif italic mb-2.5 max-w-sm sm:max-w-md px-3 sm:px-4 leading-relaxed"
           style={{
             fontSize: 'clamp(0.86rem, 3.3vw, 1rem)',
             color: 'rgba(255,248,235,0.92)',
@@ -243,6 +243,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenLetter }) => {
           }}
         >
           &ldquo;{hero.introSentence}&rdquo;
+        </p>
+
+        {/* Heartfelt blessing message */}
+        <p
+          className="font-serif italic mb-3 max-w-sm sm:max-w-md px-3 sm:px-4 leading-relaxed"
+          style={{
+            fontSize: 'clamp(0.86rem, 3.3vw, 1rem)',
+            color: 'rgba(255,248,235,0.95)',
+            textShadow: '0 1px 6px rgba(0,0,0,0.38)',
+          }}
+        >
+          &ldquo;Your presence is the most beautiful blessing my life has ever received. May your face always shine with a beautiful smile.&rdquo;
         </p>
 
         {/* Photo Caption */}

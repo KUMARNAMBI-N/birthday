@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { PhotoItem } from '../../types/birthday'
 import { RomanticImage } from '../decorations/RomanticImage'
 import { FloralFlourish } from '../decorations/GoldOrnaments'
-import { X, Heart } from 'lucide-react'
+import { X } from 'lucide-react'
 
 interface LightboxModalProps {
   photo: PhotoItem | null
@@ -54,26 +54,13 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ photo, onClose }) 
         </div>
 
         {/* Photo Container */}
-        <div className="relative p-2 bg-white rounded shadow-inner border border-gold/20 overflow-hidden max-h-[65vh]">
+        <div className="relative p-2 bg-white rounded shadow-inner border border-gold/20 overflow-hidden max-h-[75vh]">
           <RomanticImage
             src={photo.url}
             alt={photo.alt}
-            aspectRatio="aspect-auto max-h-[60vh] object-contain mx-auto"
+            aspectRatio="aspect-auto max-h-[70vh] object-contain mx-auto"
             fallbackText="A Timeless Memory"
           />
-        </div>
-
-        {/* Caption */}
-        <div className="mt-4 px-2">
-          <p className="font-serif italic text-lg sm:text-xl text-burgundy font-medium">
-            "{photo.caption}"
-          </p>
-          {photo.date && (
-            <p className="font-sans text-xs uppercase tracking-widest text-luxury-muted mt-1 flex items-center justify-center gap-1.5">
-              <Heart className="w-3 h-3 text-gold fill-gold" />
-              <span>{photo.date}</span>
-            </p>
-          )}
         </div>
       </div>
 

@@ -62,7 +62,7 @@ export const MemoriesSection: React.FC = () => {
               <div
                 key={`${photo.id}-${index}`}
                 onClick={() => setSelectedPhoto(photo)}
-                className="group relative w-[220px] sm:w-[260px] shrink-0 bg-white p-3 pb-4 rounded-sm shadow-md hover:shadow-luxury border border-gold/30 cursor-pointer transform transition-all duration-300 hover:-translate-y-1 select-none"
+                className="group relative w-[220px] sm:w-[260px] shrink-0 bg-white p-3 rounded-sm shadow-md hover:shadow-luxury border border-gold/30 cursor-pointer transform transition-all duration-300 hover:-translate-y-1 select-none"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -79,11 +79,6 @@ export const MemoriesSection: React.FC = () => {
                     aspectRatio="aspect-[4/5]"
                     fallbackText={`Memory ${photoNum}`}
                   />
-                </div>
-                <div className="mt-2.5 text-center px-1">
-                  <p className="font-serif italic text-espresso text-xs sm:text-sm leading-snug line-clamp-1">
-                    &ldquo;{photo.caption}&rdquo;
-                  </p>
                 </div>
               </div>
             )

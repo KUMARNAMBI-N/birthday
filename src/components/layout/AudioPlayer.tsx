@@ -109,27 +109,26 @@ export const AudioPlayer: React.FC = () => {
   const userPausedRef = useRef(false)
   const unlockedRef = useRef(false)
   const autoPlayInFlightRef = useRef(false)
-  const gesturePlayInFlightRef = useRef(false)
+  const gestureInFlightRef = useRef(false)
   const volumeInitializedRef = useRef(false)
   const triedRelativeFallbackRef = useRef(false)
-  const cleanupListenersRef = useRef<(() => void) | null>(null)
 
-  const attemptPlay = (isUserGesture: boolean) => {
+  const attemptPlay = (isUserGesture = false) => {
     if (userPausedRef.current) return
     const currentAudio = audioRef.current
     if (!currentAudio) return
 
-    // If audio is genuinely already playing, sync state and remove fallback listeners
-    if (unlockedRef.current && !currentAudio.paused) {
+    // If audio is already playing unmuted, sync state and do not interrupt it
+    if ((unlockedRef.current || !isUserGesture) && !currentAudio.paused && !currentAudio.muted) {
       setIsPlaying(true)
-      cleanupListenersRef.current?.()
       return
     }
 
-    if (gesturePlayInFlightRef.current) return
+    // Prevent concurrent gesture calls in the same tap from interrupting each other,
+    // while allowing a real user gesture to override a pending non-gesture autoplay attempt.
+    if (gestureInFlightRef.current) return
     if (!isUserGesture && autoPlayInFlightRef.current) return
 
-    // Guarantee single active audio instance
     if (activeAudioInstance && activeAudioInstance !== currentAudio) {
       activeAudioInstance.pause()
     }
@@ -143,48 +142,42 @@ export const AudioPlayer: React.FC = () => {
     currentAudio.muted = false
 
     if (isUserGesture) {
-      gesturePlayInFlightRef.current = true
+      gestureInFlightRef.current = true
     } else {
       autoPlayInFlightRef.current = true
+    }
+
+    const clearInFlight = () => {
+      if (isUserGesture) {
+        gestureInFlightRef.current = false
+      } else {
+        autoPlayInFlightRef.current = false
+      }
     }
 
     const playPromise = currentAudio.play()
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          if (isUserGesture) {
-            gesturePlayInFlightRef.current = false
-          } else {
-            autoPlayInFlightRef.current = false
-          }
+          clearInFlight()
           if (userPausedRef.current) {
             currentAudio.pause()
             setIsPlaying(false)
             return
           }
-          if (!currentAudio.paused) {
+          if (!currentAudio.paused && !currentAudio.muted) {
             unlockedRef.current = true
             setIsPlaying(true)
-            cleanupListenersRef.current?.()
           }
         })
         .catch(() => {
-          if (isUserGesture) {
-            gesturePlayInFlightRef.current = false
-          } else {
-            autoPlayInFlightRef.current = false
-          }
-          // Browser blocked unmuted autoplay; keep listeners active for the first genuine user interaction
+          clearInFlight()
           if (currentAudio.paused) {
             setIsPlaying(false)
           }
         })
     } else {
-      if (isUserGesture) {
-        gesturePlayInFlightRef.current = false
-      } else {
-        autoPlayInFlightRef.current = false
-      }
+      clearInFlight()
     }
   }
 
@@ -217,13 +210,18 @@ export const AudioPlayer: React.FC = () => {
     ]
 
     const unlockAudio = (e: Event) => {
+      if (userPausedRef.current) return
+      const currentAudio = audioRef.current
+      if (!currentAudio || (unlockedRef.current && !currentAudio.paused)) return
+
       // Do not intercept clicks on the music button itself — let togglePlay handle it directly
       if (buttonRef.current && e.target instanceof Node && buttonRef.current.contains(e.target)) {
         return
       }
 
-      // On touch devices, touchstart and touch pointerdown fire before the browser grants
-      // user activation; skip them when userActivation is not yet active so pointerup/touchend/click succeeds
+      // On mobile browsers (Chrome Android / iOS), touchstart and touch pointerdown fire before
+      // the browser grants userActivation; skip them when userActivation is not yet active so
+      // pointerup / touchend / click executes a single clean play() call with valid activation.
       if (
         e.type === 'touchstart' ||
         (e.type === 'pointerdown' && (e as PointerEvent).pointerType === 'touch')
@@ -238,40 +236,51 @@ export const AudioPlayer: React.FC = () => {
     }
 
     const handleCustomUnlock = () => {
+      if (userPausedRef.current) return
+      if (audioRef.current && unlockedRef.current && !audioRef.current.paused) return
       attemptPlay(true)
+    }
+
+    const handlePageShow = () => {
+      if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
+        attemptPlay(false)
+      }
+    }
+
+    const ambientEvents = ['mousemove', 'wheel', 'scroll', 'focus']
+
+    const handleAmbientRetry = () => {
+      if (userPausedRef.current || unlockedRef.current) return
+      const currentAudio = audioRef.current
+      if (!currentAudio || !currentAudio.paused) return
+      attemptPlay(false)
     }
 
     const cleanupListeners = () => {
       gestureEvents.forEach((evt) => {
         document.removeEventListener(evt, unlockAudio, { capture: true })
       })
+      ambientEvents.forEach((evt) => {
+        window.removeEventListener(evt, handleAmbientRetry)
+      })
       window.removeEventListener('birthday-unlock-audio', handleCustomUnlock)
-    }
-    cleanupListenersRef.current = cleanupListeners
-
-    const handlePageClose = () => {
-      autoPlayInFlightRef.current = false
-      gesturePlayInFlightRef.current = false
-      if (audioRef.current && !audioRef.current.paused) {
-        audioRef.current.pause()
-      }
-      synthRef.current?.stop()
-      setIsPlaying(false)
+      window.removeEventListener('pageshow', handlePageShow)
     }
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
-        handlePageClose()
+        autoPlayInFlightRef.current = false
+        gestureInFlightRef.current = false
+        if (audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause()
+        }
+        synthRef.current?.stop()
+        setIsPlaying(false)
       } else if (document.visibilityState === 'visible') {
-        if (unlockedRef.current && !userPausedRef.current) {
+        if (!userPausedRef.current) {
           const currentAudio = audioRef.current
           if (currentAudio && !useSynthRef.current) {
-            currentAudio.muted = false
-            currentAudio.play().then(() => {
-              setIsPlaying(true)
-            }).catch(() => {
-              setIsPlaying(false)
-            })
+            attemptPlay(false)
           } else if (useSynthRef.current) {
             synthRef.current?.start()
             setIsPlaying(true)
@@ -280,28 +289,35 @@ export const AudioPlayer: React.FC = () => {
       }
     }
 
-    if (!unlockedRef.current && !userPausedRef.current) {
-      gestureEvents.forEach((evt) => {
-        document.addEventListener(evt, unlockAudio, { capture: true, passive: true })
-      })
-      window.addEventListener('birthday-unlock-audio', handleCustomUnlock)
-    }
-
-    // Attempt immediate autoplay on initial page load / refresh
-    attemptPlay(false)
-
-    window.addEventListener('pagehide', handlePageClose)
-    window.addEventListener('beforeunload', handlePageClose)
+    gestureEvents.forEach((evt) => {
+      document.addEventListener(evt, unlockAudio, { capture: true, passive: true })
+    })
+    ambientEvents.forEach((evt) => {
+      window.addEventListener(evt, handleAmbientRetry, { passive: true })
+    })
+    window.addEventListener('birthday-unlock-audio', handleCustomUnlock)
+    window.addEventListener('pageshow', handlePageShow)
     document.addEventListener('visibilitychange', handleVisibilityChange)
 
+    // Attempt immediate autoplay on initial page load / refresh and early load milestones
+    attemptPlay(false)
+    const retryTimers = [150, 500, 1200, 2600].map((delay) =>
+      window.setTimeout(() => {
+        if (!userPausedRef.current && !unlockedRef.current && audioRef.current && audioRef.current.paused) {
+          attemptPlay(false)
+        }
+      }, delay)
+    )
+
     return () => {
+      retryTimers.forEach((t) => window.clearTimeout(t))
       cleanupListeners()
-      window.removeEventListener('pagehide', handlePageClose)
-      window.removeEventListener('beforeunload', handlePageClose)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
-      // Do not pause during React 18 StrictMode's simulated unmount when the element remains in the DOM
       if (audio && !audio.isConnected) {
-        handlePageClose()
+        autoPlayInFlightRef.current = false
+        gestureInFlightRef.current = false
+        audio.pause()
+        synthRef.current?.stop()
         if (activeAudioInstance === audio) {
           activeAudioInstance = null
         }
@@ -321,8 +337,7 @@ export const AudioPlayer: React.FC = () => {
       userPausedRef.current = true
       unlockedRef.current = true
       autoPlayInFlightRef.current = false
-      gesturePlayInFlightRef.current = false
-      cleanupListenersRef.current?.()
+      gestureInFlightRef.current = false
       if (audio) {
         audio.pause()
       }
@@ -347,7 +362,6 @@ export const AudioPlayer: React.FC = () => {
         audio.muted = false
         await audio.play()
         unlockedRef.current = true
-        cleanupListenersRef.current?.()
         setIsPlaying(true)
         return
       } catch (err) {
@@ -367,7 +381,6 @@ export const AudioPlayer: React.FC = () => {
     }
     synthRef.current?.start()
     unlockedRef.current = true
-    cleanupListenersRef.current?.()
     setIsPlaying(true)
   }
 
@@ -382,6 +395,7 @@ export const AudioPlayer: React.FC = () => {
       <audio
         ref={audioRef}
         src={birthdayContent.audio.src}
+        autoPlay
         loop
         playsInline
         preload="auto"
@@ -391,28 +405,56 @@ export const AudioPlayer: React.FC = () => {
             volumeInitializedRef.current = true
           }
         }}
+        onLoadedData={() => {
+          if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
+            attemptPlay(false)
+          }
+        }}
         onPlaying={() => {
-          if (!userPausedRef.current) {
+          if (
+            !userPausedRef.current &&
+            audioRef.current &&
+            !audioRef.current.paused &&
+            !audioRef.current.muted
+          ) {
             unlockedRef.current = true
-            cleanupListenersRef.current?.()
+            setIsPlaying(true)
+          }
+        }}
+        onTimeUpdate={() => {
+          if (
+            !userPausedRef.current &&
+            audioRef.current &&
+            !audioRef.current.paused &&
+            !audioRef.current.muted &&
+            audioRef.current.currentTime > 0
+          ) {
+            unlockedRef.current = true
             setIsPlaying(true)
           }
         }}
         onPause={() => {
           setIsPlaying(false)
+          if (!userPausedRef.current && document.visibilityState === 'visible') {
+            unlockedRef.current = false
+          }
         }}
         onCanPlay={() => {
-          if (!userPausedRef.current && !unlockedRef.current && audioRef.current && audioRef.current.paused) {
+          if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
+            attemptPlay(false)
+          }
+        }}
+        onCanPlayThrough={() => {
+          if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
             attemptPlay(false)
           }
         }}
         onError={() => {
-          // If absolute path failed under a relative subpath deployment, try relative path once
           if (audioRef.current && !triedRelativeFallbackRef.current && birthdayContent.audio.src.startsWith('/')) {
             triedRelativeFallbackRef.current = true
             audioRef.current.src = `.${birthdayContent.audio.src}`
             audioRef.current.load()
-            attemptPlay(false)
+            attemptPlay()
             return
           }
           useSynthRef.current = true
@@ -427,11 +469,10 @@ export const AudioPlayer: React.FC = () => {
         onClick={togglePlay}
         aria-label={isPlaying ? 'Pause music' : 'Play music'}
         title={isPlaying ? 'Pause music' : 'Play music'}
-        className={`relative flex items-center justify-center w-11 h-11 rounded-full border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C6A15B] focus:ring-offset-1 ${
-          isPlaying
+        className={`relative flex items-center justify-center w-11 h-11 rounded-full border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C6A15B] focus:ring-offset-1 ${isPlaying
             ? 'bg-[#650B1B] border-[rgba(198,161,91,0.6)] shadow-[0_4px_20px_rgba(101,11,27,0.35)]'
             : 'bg-[#F8F1E3]/95 backdrop-blur-sm border-[rgba(198,161,91,0.4)] shadow-[0_4px_16px_rgba(48,36,31,0.15)] hover:border-[rgba(198,161,91,0.7)]'
-        }`}
+          }`}
       >
         {isPlaying ? (
           <Pause className="w-4 h-4 text-[#EAD196]" />

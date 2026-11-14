@@ -28,11 +28,25 @@ export const WishSection: React.FC = () => {
 
           {/* Heartfelt Blessings */}
           <div className="space-y-4 sm:space-y-5 font-serif text-[15px] sm:text-[17px] text-[#FAF4E8]/90 leading-[1.8] text-center tracking-wide font-normal">
-            {wish.paragraphs.map((paragraph, index) => (
-              <p key={index} className="max-w-md mx-auto">
-                {paragraph}
-              </p>
-            ))}
+            {wish.paragraphs.map((paragraph, index) => {
+              const isHighlighted =
+                paragraph.startsWith('En manasaara') ||
+                paragraph.startsWith('10. ') ||
+                paragraph.startsWith('And Kriti...') ||
+                paragraph.startsWith('Happy Birthday,') ||
+                paragraph.startsWith('You are not just')
+
+              return (
+                <p
+                  key={index}
+                  className={`max-w-md mx-auto ${
+                    isHighlighted ? 'font-semibold text-gold-light pt-1' : ''
+                  }`}
+                >
+                  {paragraph}
+                </p>
+              )
+            })}
           </div>
 
           {/* Minimalist Blessing Footer */}

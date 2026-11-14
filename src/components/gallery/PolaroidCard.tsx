@@ -27,7 +27,7 @@ export const MemoryPhotoCard: React.FC<MemoryPhotoCardProps> = ({ photo, index, 
       aria-label={`View photo ${index + 1}: ${photo.caption}`}
     >
       {/* Fine-art Photo Frame with Clean Editorial Border */}
-      <div className="bg-white p-3 sm:p-4 pb-4 sm:pb-5 rounded-sm shadow-md group-hover:shadow-luxury transition-all duration-300 border border-gold/25 transform group-hover:-translate-y-1">
+      <div className="bg-white p-3 sm:p-4 rounded-sm shadow-md group-hover:shadow-luxury transition-all duration-300 border border-gold/25 transform group-hover:-translate-y-1">
         {/* Photo Container */}
         <div className="relative overflow-hidden aspect-[4/5] bg-ivory-dark rounded-[1px]">
           <RomanticImage
@@ -49,18 +49,6 @@ export const MemoryPhotoCard: React.FC<MemoryPhotoCardProps> = ({ photo, index, 
           <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-[10px] font-sans tracking-widest text-ivory/90 uppercase">
             {indexStr}
           </div>
-        </div>
-
-        {/* Caption Area - Generous Spacing & High Readability */}
-        <div className="mt-3.5 px-1 text-center">
-          <p className="font-serif italic text-espresso text-base sm:text-lg leading-snug group-hover:text-burgundy transition-colors">
-            "{photo.caption}"
-          </p>
-          {photo.date && (
-            <p className="mt-1 font-sans text-[11px] tracking-[0.2em] uppercase text-espresso-muted">
-              {photo.date}
-            </p>
-          )}
         </div>
       </div>
     </article>

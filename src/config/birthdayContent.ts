@@ -21,7 +21,7 @@ export const birthdayContent: BirthdayContent = {
     herName: "Kriti",
     introSentence: "Some people make the world more beautiful simply by being in it. Today is all about celebrating you, your beautiful smile, your dreams, and all the happiness you bring into this world.",
     heroPhotoUrl: "./images/birthday-childhood.jpg",
-    heroPhotoCaption: "A Beautiful Soul, A Beautiful Smile",
+    heroPhotoCaption: "My Beautiful Soul, An Irreplaceable Heart❤️",
     buttonText: "LET'S CELEBRATE YOUR DAY ↓",
   },
 
@@ -221,23 +221,34 @@ export const birthdayContent: BirthdayContent = {
 
   // ── SECTION 6: BIRTHDAY BLESSINGS ──────────────────────────────────────
   wish: {
-    tag: "Indha Naal Unakkaga, Kriti! ❤️",
-    heading: "A Thousand Wishes for You",
+    tag: "Indha Naal Unakkaga, En Uyire Kriti! ❤️🥹",
+    heading: "❤️ A Thousand Wishes for You, My Soulmate",
     paragraphs: [
       "Kriti...",
-      "Innaikku unakku romba special-aana naal. Un birthday-ku en manasula irukkura sila aasaiyum wishes-um un kooda share pannanum nu aasai paduren.",
-      "1. Un sirippu eppovume kuraiya koodadhu. Eppovume ippadiye happy-ah irukkanum.",
-      "2. Un manasu eppovume sandhoshathala nirainjirukkanum.",
-      "3. Nee aasai padra ella kanavugalum nijamaaganum.",
-      "4. Un vazhkaila evlo kashtangal vandhaalum, adhai face panna thevaiyaana courage-um strength-um unakku kidaikkanum.",
-      "5. Nee edukkura ovvoru muyarchiyilayum success kidaikkanum.",
-      "6. Unakku pudicha ella vishayangalum un vazhkaila nadakkanum.",
-      "7. Unna unmaiya nesikkira, un feelings-ah purinjukkira nalla manushanga eppovume un kooda irukkanum.",
-      "8. Unakku pidicha idangalukku travel pannanum, pudhu experiences enjoy pannanum, neraya beautiful memories create pannanum.",
-      "9. Unakku eppovume nalla health-um, peace-um, happiness-um kidaikkanum.",
-      "10. Mukkiyama, nee evlo special-aana person nu nee eppovume marandhuda koodadhu."
+      "Innaikku un birthday mattum illa... Enakku romba special-aana oru naal. Yenna, indha ulagathula nee indha azhagana naal-la dhaan vandha. Unna maadhiri oru azhagana manasa indha ulagathukku kodutha naal.",
+      "Unakku en manasula irukkura sila vishayangalai sollanum nu romba naala aasai. Words-la en feelings ellathayum solla mudiyuma nu theriyala... Aana en manasula irukkuradha unakku sollanum.",
+      "En manasaara unakkaga naan aasai paduradhu... ❤️",
+      "1. Un azhagana sirippu endha situation-layum marainjidave koodadhu. Un smile dhaan unakku mattum illa, unna nesikkira manasukkum oru happiness.",
+      "2. Un manasula irukkura chinna chinna aasai kooda oru naal nijamaaganum. Nee kanavu kaanura ovvoru vishayamum un kai seranum.",
+      "3. Life-la evlo challenges vandhaalum, adhai face panna thevaiyaana courage-um confidence-um unakku eppovume irukkanum.",
+      "4. Nee yaarukkagavum unmaiyaana unnai maathikka vendam. Un kindness, un innocence, un character — idhellam eppovume ippadiye azhaga irukkanum.",
+      "5. Unakku pidicha idangalukku travel pannanum, pudhu pudhu experiences enjoy pannanum, un life full-ah beautiful memories create pannanum.",
+      "6. Unna purinjukkira manushangalum, un feelings-ku value kudukkira manushangalum eppovume un life-la irukkanum.",
+      "7. Nee tired-ah irukkumbodhu unakku peace kidaikkanum. Nee sad-ah irukkumbodhu un manasu aarudhal adaiyanum. Nee confused-ah irukkumbodhu unakku sariyana vazhi theriyanum.",
+      "8. Un success-ai nee mattum celebrate pannaama, unna nesikkira ellarum perumaiya celebrate panra alavukku nee life-la uyaranum.",
+      "9. Unakku nalla health, endless happiness, peaceful mind, and a beautiful future kidaikkanum.",
+      "10. Mukkiyama, un life-la nee evlo precious, evlo special, evlo valuable person nu nee oru naal kooda marandhudakoodadhu.",
+      "And Kriti... En manasula irundhu oru vishayam sollanum. ❤️",
+      "Nee en life-la vandhadhukku apram, sila feelings-ku pudhu artham kidaichirukku. Un kooda pesura chinna chinna moments, un sirippu, un happiness, un feelings — idhellam enakku romba special.",
+      "Unna eppovume happy-ah paakanum nu thonum. Un dreams achieve panradhai paathu santhoshapadanum nu thonum. Unakku kashtamaana nerangal vandhaalum, unakku support-ah irukkanum nu thonum.",
+      "Namma life-la enna nadandhaalum, un happiness-um peace-um eppovume mukkiyam.",
+      "Unakku naan kudukka virumburadhu expensive gifts mattum illa... Unna purinjukkira oru manasu, un feelings-ku value kudukkira oru uravu, un happiness-la santhoshapadura oru idhayam.",
+      "Happy Birthday, En Uyirin Uyire Kriti! ❤️🥹",
+      "Unakku indha birthday mattum illaama, un life-la varra ovvoru naalum beautiful-ah irukkanum.",
+      "Un kanavugal nijamaaganum, un aasaihal niraiveranum, un mugathula irukkura sirippu endha naalum kuraiya koodadhu.",
+      "You are not just someone special in my life... You are a beautiful part of my heart. ❤️"
     ],
-    blessing: "Once Again, Happy Birthday En Chellamaana Kriti! ❤️"
+    blessing: "With lots of love, always! 🫂❤️"
   },
 
   // ── SECTION 7: SECRET SURPRISE ENVELOPE ────────────────────────────────
@@ -245,20 +256,18 @@ export const birthdayContent: BirthdayContent = {
     teaserLabel: "ONE LAST THING FROM MY HEART",
     promptText: "Sila words irukku… nee eppovume marakkakoodaadha nu naan virumburen.",
     buttonText: "A Secret Just for You ❤️",
-    revealedHeading: "A Promise From My Heart",
+    revealedHeading: "❤️ A Promise From My Heart",
     messageParagraphs: [
       "Kriti...",
-      "Unakku eppovume naan iruppen. Unakku oru brother-ah support venumna, oru father-ah care venumna, oru sister-ah share pannikka venumna, oru mother-ah paasam kaatta venumna, ennala mudinja alavukku andha ella paasathaiyum unakku kodukka virumburen.",
-      "Nee sandhoshama irukkumbodhu un kooda serndhu sirippen. Nee kashtathula irukkumbodhu un pecha porumaiya ketpen. Nee bayapadumbodhu unakku confidence kuduppen. Nee tired-ah irukkumbodhu unakku aarudhala iruppen.",
-      "Unakku ellame naan mattum dhaan nu sollala. Aana unakku eppovume oru nambikkaiyaana person-ah, un pakkathula irukkura oru support-ah naan irukka virumburen.",
-      "Unakku edhu thevaiya irundhaalum, en kitta thayangama sollanum. Un feelings-ah maraikka vendam. Happy-ah irundhaalum, sad-ah irundhaalum, un original self-ah en kitta kaattalaam.",
-      "Unna eppovume respect pannuven. Un dreams-ku support pannuven. Un happiness-ah celebrate pannuven.",
-      "Once Again, Happy Birthday En Chellamaana Kriti! ❤️",
-      "Nee eppovume sandhoshama irukkanum. Un kanavugal ellame nijamaaganum. Un mugathula irukkura andha azhagana sirippu eppovume maarama irukkanum.",
-      "Unakku indha varusham neraya happiness, success, love and beautiful memories kondu varanum nu manasara wish panren."
+      "Life-la ellaa naalum sandhoshama irukka mudiyadhu. Sila neram sirippu, sila neram kanneer, sila neram thanimai. Aana andha ella nerangalilum, unakku oru nambikkaiyaana thunaiyaaga irukka naan virumburen.",
+      "Nee sandhoshama irukkumbodhu un kooda sirippen. Nee sogama irukkumbodhu un manasula irukkuradhai porumaiya ketpen. Nee thothu ponaalum, unnala mudiyum nu unakku nambikkai koduppen.",
+      "Un dreams-ai respect pannuven, un feelings-ai purinjukka muyarchi pannuven. Nee eppovume en kitta unmaiyaana unnai kaattalaam. Unna judge pannaama, un feelings-ku value koduppen.",
+      "Unakku ellame naan mattum dhaan nu sollala... Aana unakku thevaiyaana nerathula, ennala mudinja alavukku un pakkathula irukka eppovume virumburen.",
+      "Once Again, Happy Birthday, En Chellamaana Kriti! ❤️",
+      "Un vaazhkai muzhuvadhum happiness, peace, love and success nirainjirukkanum. Un azhagana sirippu endha naalum maarama irukkanum."
     ],
-    loveNote: "Un vazhkaiyoda ella situations-layum, unakku mudinja alavukku thunaiya nikka naan eppovume un kooda iruppen. ❤️",
-    signature: "Always Yours ❤️"
+    loveNote: "Oru vishayam mattum eppovume nyabagam vachikko... Unakku indha ulagathula evlo kashtam vandhaalum, unnai purinjukka virumbura oru manasu eppovume irukku.",
+    signature: "Always With Love & Care, En Uyire! ❤️🫂"
   },
 
   // ── SECTION 8: FINAL SCREEN ────────────────────────────────────────────

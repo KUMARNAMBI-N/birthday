@@ -116,7 +116,14 @@ export const SurpriseEnvelope: React.FC = () => {
           {/* Letter Content - Clear 15-17px Typography, High Readability */}
           <div className="space-y-4 font-serif text-[15px] sm:text-[16px] text-espresso leading-[1.75] text-left">
             {surprise.messageParagraphs.map((paragraph, index) => (
-              <p key={index}>
+              <p
+                key={index}
+                className={
+                  paragraph.startsWith('Once Again, Happy Birthday')
+                    ? 'font-semibold text-burgundy pt-1'
+                    : undefined
+                }
+              >
                 {paragraph}
               </p>
             ))}
